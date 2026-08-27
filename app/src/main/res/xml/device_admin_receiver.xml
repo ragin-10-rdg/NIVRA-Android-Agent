@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Declares the exact Device Admin policies NIVRA relies on. Scoped narrowly:
+  security logging + network logging + basic policy/state read access.
+  Deliberately excludes wipe-data, lock-screen-password-change, and other
+  destructive/invasive policies not needed for a telemetry-only agent.
+-->
+<device-admin xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-policies>
+        <watch-login />
+    </uses-policies>
+</device-admin>

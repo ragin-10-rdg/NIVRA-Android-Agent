@@ -1,0 +1,35 @@
+<!--
+  NIVRA custom decoder, matching the schema in
+  app/src/main/kotlin/com/nivra/agent/models/SecurityEvent.kt:
+
+  {
+    "schema_version": "1.0",
+    "event_id": "uuid",
+    "timestamp": "2026-08-22T19:42:31Z",
+    "device": {"device_id": "...", "android_version": "...", "security_patch": "..."},
+    "agent": {"name": "...", "version": "..."},
+    "event": {"type": "...", "severity": "..."},
+    "data": { ... }
+  }
+
+  Install: copy to /var/ossec/etc/decoders/nivra_decoder.xml on the Wazuh
+  Manager, then `systemctl restart wazuh-manager`.
+-->
+<decoder name="nivra-json">
+  <prematch>"schema_version"</prematch>
+</decoder>
+
+<decoder name="nivra-fields">
+  <parent>nivra-json</parent>
+  <plugin_decoder>JSON_Decoder</plugin_decoder>
+</decoder>
+
+<!--
+  JSON_Decoder flattens nested objects into dot-notation dynamic fields, so
+  rules can reference:
+    event_id, timestamp, schema_version
+    device.device_id, device.android_version, device.security_patch
+    agent.name, agent.version
+    event.type, event.severity
+    data.<field>
+-->

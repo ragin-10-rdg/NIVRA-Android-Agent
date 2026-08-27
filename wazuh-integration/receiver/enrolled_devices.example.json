@@ -1,0 +1,4 @@
+{
+  "_comment": "device_id -> SHA-256 hash of that device's enrollment token. Never commit the real version of this file (see .gitignore). Generate a token per device (e.g. `openssl rand -hex 32`), put the plaintext token into the app's Settings screen, and store its sha256sum here.",
+  "nivra-a1b2c3d4e5f6a7b8": "REPLACE_WITH_SHA256_OF_DEVICE_TOKEN"
+}

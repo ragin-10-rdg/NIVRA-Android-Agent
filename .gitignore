@@ -1,0 +1,36 @@
+﻿# Gradle
+.gradle/
+
+# Build output
+build/
+*/build/
+
+# Android Studio
+.idea/
+*.iml
+
+# Local Android SDK configuration
+local.properties
+
+# Native build
+.externalNativeBuild/
+.cxx/
+
+# Android Studio captures
+captures/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.log
+
+# Signing keys / secrets
+*.jks
+*.keystore
+.artifacts/
+# Python
+__pycache__/
+*.py[cod]

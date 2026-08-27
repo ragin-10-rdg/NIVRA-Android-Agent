@@ -1,0 +1,19 @@
+{
+  "_comment": "Encode this JSON into a QR code and scan it during Android's out-of-box setup (tap the welcome screen 6 times to enter QR provisioning mode) to provision a fresh device as Device Owner without adb. Replace the checksum and APK URL for your build.",
+
+  "android.app.extra.PROVISIONING_DEVICE_ADMIN_COMPONENT_NAME": "com.nivra.agent/com.nivra.agent.dpc.NivraDeviceAdminReceiver",
+
+  "android.app.extra.PROVISIONING_DEVICE_ADMIN_PACKAGE_DOWNLOAD_LOCATION": "https://your-distribution-host.example.com/nivra-agent-release.apk",
+
+  "android.app.extra.PROVISIONING_DEVICE_ADMIN_SIGNATURE_CHECKSUM": "REPLACE_WITH_BASE64_SHA256_OF_YOUR_SIGNING_CERT",
+
+  "android.app.extra.PROVISIONING_SKIP_ENCRYPTION": false,
+
+  "android.app.extra.PROVISIONING_LEAVE_ALL_SYSTEM_APPS_ENABLED": true,
+
+  "android.app.extra.PROVISIONING_ADMIN_EXTRAS_BUNDLE": {
+    "wazuh_host": "wazuh-manager.example.internal",
+    "wazuh_port": "8443",
+    "enrollment_token": "REPLACE_PER_DEVICE_AT_ENROLLMENT_TIME"
+  }
+}

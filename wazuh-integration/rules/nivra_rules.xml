@@ -1,0 +1,111 @@
+<!--
+  NIVRA custom detection rules.
+  Install: /var/ossec/etc/rules/nivra_rules.xml, then restart wazuh-manager.
+  Rule IDs use the 100XXX custom range per Wazuh convention.
+-->
+<group name="nivra,android,mobile,">
+
+  <rule id="100100" level="0">
+    <decoded_as>nivra-json</decoded_as>
+    <description>NIVRA Android agent event received from $(device.device_id).</description>
+  </rule>
+
+  <!-- Use case 1: failed unlock attempts -->
+  <rule id="100101" level="5">
+    <if_sid>100100</if_sid>
+    <field name="event.type">SECURITY_LOG</field>
+    <field name="data.subtype">failed_unlock</field>
+    <field name="data.success">false</field>
+    <description>NIVRA: Failed device unlock attempt on $(device.device_id).</description>
+    <group>authentication_failed,</group>
+  </rule>
+
+  <rule id="100102" level="10" frequency="5" timeframe="300">
+    <if_matched_sid>100101</if_matched_sid>
+    <description>NIVRA: 5+ failed unlock attempts on $(device.device_id) within 5 minutes -- possible brute-force / lost-or-stolen device.</description>
+    <group>authentication_failures,</group>
+  </rule>
+
+  <!-- Use case 2: unexpected application installation (baseline-aware) -->
+  <rule id="100110" level="5">
+    <if_sid>100100</if_sid>
+    <field name="event.type">APPLICATION_INSTALL</field>
+    <field name="data.approved">true</field>
+    <description>NIVRA: New (approved-baseline) application installed on $(device.device_id): $(data.package_name).</description>
+    <group>software_installation,</group>
+  </rule>
+
+  <rule id="100111" level="9">
+    <if_sid>100100</if_sid>
+    <field name="event.type">APPLICATION_INSTALL</field>
+    <field name="data.approved">false</field>
+    <description>NIVRA: UNEXPECTED application installed on managed device $(device.device_id): $(data.package_name) (not on approved baseline).</description>
+    <group>software_installation,unexpected_application,</group>
+  </rule>
+
+  <!-- Use case 3: security-configuration drift -->
+  <rule id="100120" level="8">
+    <if_sid>100100</if_sid>
+    <field name="event.type">SECURITY_CONFIGURATION</field>
+    <field name="event.severity">MEDIUM</field>
+    <description>NIVRA: Security-configuration drift detected on $(device.device_id): $(data.drifted_fields).</description>
+    <group>configuration_changed,</group>
+  </rule>
+
+  <!-- Use case 4: network activity + suspicious destinations -->
+  <rule id="100130" level="3">
+    <if_sid>100100</if_sid>
+    <field name="event.type">NETWORK_EVENT</field>
+    <description>NIVRA: Network activity recorded from $(device.device_id).</description>
+    <group>network_activity,</group>
+  </rule>
+
+  <rule id="100131" level="9">
+    <if_sid>100130</if_sid>
+    <field name="data.hostname" type="pcre2">(?i)(\.ru|\.tk|pastebin\.com|\bc2\b)</field>
+    <description>NIVRA: Network activity from $(device.device_id) to a known-suspicious or blocklisted destination pattern. Replace this placeholder pattern with your real threat-intel feed.</description>
+    <group>network_activity,threat_intel,</group>
+  </rule>
+
+  <!-- ADB / administrative activity -->
+  <rule id="100140" level="10">
+    <if_sid>100100</if_sid>
+    <field name="event.type">ADMIN_ACTIVITY</field>
+    <description>NIVRA: ADB or administrative security activity detected on $(device.device_id).</description>
+    <group>adb_activity,</group>
+  </rule>
+
+  <!-- Heartbeat (informational only; absence is handled by the watchdog, see below) -->
+  <rule id="100150" level="0">
+    <if_sid>100100</if_sid>
+    <field name="event.type">HEARTBEAT</field>
+    <description>NIVRA: Heartbeat received from $(device.device_id).</description>
+    <group>heartbeat,</group>
+  </rule>
+
+  <!--
+    Use case 5: agent-offline detection.
+    Wazuh's rule engine alerts on event *presence*, not absence, so a
+    companion watchdog (wazuh-integration/watchdog/nivra_offline_watchdog.py)
+    queries the Wazuh Indexer for devices with no HEARTBEAT in the
+    configured window, then writes a synthetic AGENT_OFFLINE event into the
+    same JSON log this decoder parses. This rule fires on that synthetic
+    event.
+  -->
+  <rule id="100151" level="12">
+    <if_sid>100100</if_sid>
+    <field name="event.type">AGENT_OFFLINE</field>
+    <description>NIVRA: Device $(device.device_id) has not sent a heartbeat within the expected window -- agent may be offline, disabled, or the device compromised/tampered with.</description>
+    <group>agent_offline,availability,</group>
+  </rule>
+
+  <!-- Outdated security patch level -->
+  <rule id="100160" level="6">
+    <if_sid>100100</if_sid>
+    <field name="event.type">DEVICE_INFO</field>
+    <field name="data.security_patch" type="pcre2">^(202[0-3])-</field>
+    <description>NIVRA: Device $(device.device_id) reporting an outdated security patch level ($(data.security_patch)).</description>
+    <group>vulnerability,patch_management,</group>
+  </rule>
+
+</group>
