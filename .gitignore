@@ -31,6 +31,10 @@ Thumbs.db
 *.jks
 *.keystore
 .artifacts/
+
+# Receiver enrollment secrets (per-device token hashes) -- keep only the
+# .example.json template tracked; see enrolled_devices.example.json.
+wazuh-integration/receiver/enrolled_devices.json
 # Python
 __pycache__/
 *.py[cod]
