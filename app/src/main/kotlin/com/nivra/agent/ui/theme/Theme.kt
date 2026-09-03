@@ -23,7 +23,7 @@ private val LightColors = lightColorScheme(
 )
 
 @Composable
-fun NivraTheme(darkTheme: Boolean = true, content: @Composable () -> Unit) {
+fun NivraTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
     val colors = if (darkTheme) DarkColors else LightColors
     MaterialTheme(colorScheme = colors, content = content)
 }
