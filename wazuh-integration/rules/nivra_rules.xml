@@ -75,8 +75,17 @@
     <group>adb_activity,</group>
   </rule>
 
-  <!-- Heartbeat (informational only; absence is handled by the watchdog, see below) -->
-  <rule id="100150" level="0">
+  <!--
+    Heartbeat. level="3" (Wazuh's default log_alert_level floor), not 0:
+    level-0 rules are correlation-only and are never written to
+    wazuh-alerts-*, but nivra_offline_watchdog.py's known_devices() and
+    last_heartbeat_time() both query wazuh-alerts-* for exactly these
+    HEARTBEAT events -- at level 0 the watchdog would find no heartbeats
+    for any device and treat every device as permanently offline. Use the
+    "heartbeat" group below to filter these out of a dashboard's default
+    alert view if the volume is noisy.
+  -->
+  <rule id="100150" level="3">
     <if_sid>100100</if_sid>
     <field name="event.type">HEARTBEAT</field>
     <description>NIVRA: Heartbeat received from $(device.device_id).</description>

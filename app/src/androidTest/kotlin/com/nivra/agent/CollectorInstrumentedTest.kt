@@ -66,6 +66,34 @@ class CollectorInstrumentedTest {
     }
 
     @Test
+    fun eventNormalizer_filtersExcludedFieldsInNestedStructures() {
+        val normalizer = EventNormalizer(context)
+        val event = normalizer.normalize(
+            EventType.APPLICATION_INVENTORY,
+            Severity.INFO,
+            data = mapOf(
+                "app_count" to 1,
+                "applications" to listOf(
+                    mapOf(
+                        "package_name" to "com.example.app",
+                        "location" to "should-be-dropped",
+                        "nested" to mapOf("photo" to "should-be-dropped", "approved" to true)
+                    )
+                )
+            )
+        )
+
+        @Suppress("UNCHECKED_CAST")
+        val apps = event.data["applications"] as List<Map<String, Any?>>
+        assertTrue(apps[0].containsKey("package_name"))
+        assertFalse(apps[0].containsKey("location"))
+        @Suppress("UNCHECKED_CAST")
+        val nested = apps[0]["nested"] as Map<String, Any?>
+        assertFalse(nested.containsKey("photo"))
+        assertTrue(nested.containsKey("approved"))
+    }
+
+    @Test
     fun deviceOwnerCapability_reportsHonestlyWhenNotProvisioned() {
         // On an unprovisioned emulator this should be false, not throw --
         // exercising the "continue functioning if unavailable" requirement.

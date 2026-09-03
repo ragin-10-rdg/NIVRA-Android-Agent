@@ -47,6 +47,22 @@ object AgentManager {
     private val _status = MutableStateFlow(AgentStatus())
     val status: StateFlow<AgentStatus> = _status.asStateFlow()
 
+    /**
+     * Set by AgentService when its collection loops actually start/stop.
+     * Reflects real service state -- refreshStatus() must not hardcode this
+     * to true, since the UI (Dashboard/Security screens) surfaces it as the
+     * agent's headline online/offline indicator.
+     */
+    @Volatile private var serviceRunning = false
+
+    fun markServiceStarted() {
+        serviceRunning = true
+    }
+
+    fun markServiceStopped() {
+        serviceRunning = false
+    }
+
     suspend fun attach(context: Context) {
         initMutex.withLock {
             if (initialized) return
@@ -157,7 +173,7 @@ object AgentManager {
 
         _status.value = AgentStatus(
             isDeviceOwner = deviceInfo.isDeviceOwner,
-            isRunning = true,
+            isRunning = serviceRunning,
             device = deviceInfo,
             capabilities = capabilities,
             connectionStatus = connectionStatusFrom(pending, failed),

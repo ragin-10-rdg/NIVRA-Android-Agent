@@ -66,7 +66,12 @@ class AgentService : Service() {
                 Logger.i("Agent disabled via Settings; service idle")
                 return@launch
             }
-            runCollectionLoops(prefs)
+            AgentManager.markServiceStarted()
+            try {
+                runCollectionLoops(prefs)
+            } finally {
+                AgentManager.markServiceStopped()
+            }
         }
     }
 

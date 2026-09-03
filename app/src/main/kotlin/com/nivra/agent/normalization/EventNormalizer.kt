@@ -56,8 +56,21 @@ class EventNormalizer(private val context: Context) {
                 Logger.w("Dropped field '$key' at normalization: matches excluded-data pattern")
                 continue
             }
-            result[key] = value
+            result[key] = filterNestedValue(value)
         }
         return result
+    }
+
+    /**
+     * Recurses into nested maps/lists so exclusion isn't limited to the
+     * top-level data map -- e.g. APPLICATION_INVENTORY's "applications"
+     * list of per-app maps gets the same field-name filtering as any
+     * top-level field.
+     */
+    @Suppress("UNCHECKED_CAST")
+    private fun filterNestedValue(value: Any?): Any? = when (value) {
+        is Map<*, *> -> filterExcludedFields(value as Map<String, Any?>)
+        is List<*> -> value.map { filterNestedValue(it) }
+        else -> value
     }
 }
