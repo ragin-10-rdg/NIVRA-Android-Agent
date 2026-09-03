@@ -57,6 +57,9 @@ class SecurityConfigCollector(private val context: Context) {
         metrics.recordCollectionAttempt(EventType.SECURITY_CONFIGURATION.name)
         val current = snapshot()
         val drifted = SecurityConfigBaseline.diff(current)
+        // A poll that finds no drift is still a successful collection, not a
+        // failure -- record completion here regardless of the drift result.
+        metrics.recordCollectionCompleted(EventType.SECURITY_CONFIGURATION.name)
         if (drifted.isEmpty()) return null
 
         val data = mapOf(

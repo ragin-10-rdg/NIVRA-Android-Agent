@@ -10,6 +10,7 @@ class MetricsRecorder(context: android.content.Context) {
 
     private val dao = EventDatabase.get(context).metricsDao()
 
+    /** Raw count of individual events produced, for the Dashboard's "Collected" display only. */
     suspend fun recordCollected(eventType: String) {
         dao.increment("collect_success_$eventType")
     }
@@ -20,6 +21,17 @@ class MetricsRecorder(context: android.content.Context) {
 
     suspend fun recordCollectionUnavailable(eventType: String) {
         dao.increment("collect_unavailable_$eventType")
+    }
+
+    /**
+     * One per successfully-completed collector *invocation* (not per event
+     * produced) -- pairs 1:1 with recordCollectionAttempt so their ratio is a
+     * real success rate. A collector call that completes without throwing
+     * counts as a success here even if it produced zero events (e.g. "no
+     * config drift this cycle" is a successful poll, not a failure).
+     */
+    suspend fun recordCollectionCompleted(eventType: String) {
+        dao.increment("collect_completed_$eventType")
     }
 
     suspend fun recordDeliverySuccess(eventType: String) {
@@ -40,15 +52,16 @@ class MetricsRecorder(context: android.content.Context) {
     suspend fun summary(): MetricsSummary {
         val all = dao.all().associate { it.name to it.value }
         val attempts = all.filterKeys { it.startsWith("collect_attempt_") }.values.sum()
-        val successes = all.filterKeys { it.startsWith("collect_success_") }.values.sum()
+        val completed = all.filterKeys { it.startsWith("collect_completed_") }.values.sum()
+        val eventsCollected = all.filterKeys { it.startsWith("collect_success_") }.values.sum()
         val deliverySuccess = all["delivery_success_total"] ?: 0
         val deliveryFailure = all["delivery_failure_total"] ?: 0
         val deliveryTotal = deliverySuccess + deliveryFailure
 
         return MetricsSummary(
-            collectionSuccessRatePct = percentage(successes, attempts),
+            collectionSuccessRatePct = percentage(completed, attempts),
             deliveryReliabilityPct = percentage(deliverySuccess, deliveryTotal),
-            eventsCollected = successes,
+            eventsCollected = eventsCollected,
             eventsDelivered = deliverySuccess,
             eventsFailed = deliveryFailure
         )

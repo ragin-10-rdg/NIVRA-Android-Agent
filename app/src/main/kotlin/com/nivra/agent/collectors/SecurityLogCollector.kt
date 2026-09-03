@@ -42,13 +42,20 @@ class SecurityLogCollector(private val context: Context) {
         val admin = NivraDeviceAdminReceiver.componentName(context)
 
         val rawEvents: List<SecurityLog.SecurityEvent> = try {
-            dpm.retrieveSecurityLogs(admin) ?: return emptyList()
+            dpm.retrieveSecurityLogs(admin) ?: run {
+                metrics.recordCollectionCompleted(EventType.SECURITY_LOG.name)
+                return emptyList()
+            }
         } catch (e: SecurityException) {
+            // Not marked completed: a thrown exception is a genuine
+            // collection failure, unlike a null/empty result.
             Logger.e("retrieveSecurityLogs failed", e)
             return emptyList()
         }
 
-        return rawEvents.mapNotNull { toSecurityEvent(it) }
+        val events = rawEvents.mapNotNull { toSecurityEvent(it) }
+        metrics.recordCollectionCompleted(EventType.SECURITY_LOG.name)
+        return events
     }
 
     private fun toSecurityEvent(event: SecurityLog.SecurityEvent): SecurityEvent? {

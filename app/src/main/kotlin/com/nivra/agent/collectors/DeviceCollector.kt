@@ -30,7 +30,9 @@ class DeviceCollector(private val context: Context) {
             "is_device_owner" to info.isDeviceOwner
         )
 
-        return normalizer.normalize(EventType.DEVICE_INFO, Severity.INFO, data)
+        val event = normalizer.normalize(EventType.DEVICE_INFO, Severity.INFO, data)
+        metrics.recordCollectionCompleted(EventType.DEVICE_INFO.name)
+        return event
     }
 
     fun snapshot(): DeviceInfo {

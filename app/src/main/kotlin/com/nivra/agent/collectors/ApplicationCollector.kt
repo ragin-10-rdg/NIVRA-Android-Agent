@@ -84,7 +84,9 @@ class ApplicationCollector(private val context: Context) {
             }
         )
 
-        return normalizer.normalize(EventType.APPLICATION_INVENTORY, Severity.INFO, data)
+        val event = normalizer.normalize(EventType.APPLICATION_INVENTORY, Severity.INFO, data)
+        metrics.recordCollectionCompleted(EventType.APPLICATION_INVENTORY.name)
+        return event
     }
 
     /**

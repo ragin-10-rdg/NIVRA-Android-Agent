@@ -42,13 +42,18 @@ class NetworkCollector(private val context: Context) {
         val admin = NivraDeviceAdminReceiver.componentName(context)
 
         val events: List<NetworkEvent> = try {
-            dpm.retrieveNetworkLogs(admin, batchToken) ?: return emptyList()
+            dpm.retrieveNetworkLogs(admin, batchToken) ?: run {
+                metrics.recordCollectionCompleted(EventType.NETWORK_EVENT.name)
+                return emptyList()
+            }
         } catch (e: SecurityException) {
+            // Not marked completed: a thrown exception is a genuine
+            // collection failure, unlike a null/empty result.
             Logger.e("retrieveNetworkLogs failed", e)
             return emptyList()
         }
 
-        return events.map { event ->
+        val result = events.map { event ->
             val data: Map<String, Any?> = when (event) {
                 is DnsEvent -> mapOf(
                     "type" to "dns",
@@ -73,5 +78,7 @@ class NetworkCollector(private val context: Context) {
                 timestamp = Instant.ofEpochMilli(event.timestamp)
             )
         }
+        metrics.recordCollectionCompleted(EventType.NETWORK_EVENT.name)
+        return result
     }
 }
