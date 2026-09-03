@@ -9,9 +9,10 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination.Companion.hierarchy
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -61,16 +62,34 @@ class MainActivity : ComponentActivity() {
 fun NivraApp(viewModel: AgentViewModel = viewModel()) {
     val navController = rememberNavController()
     val status by viewModel.status.collectAsState()
+    val focusManager = LocalFocusManager.current
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+    // A focused text field (e.g. on the Settings screen) can leave an IME
+    // session active; on some devices/configurations a tap on the bottom
+    // nav bar or top bar icons right next to a screen edge is then consumed
+    // by focus/IME handling instead of reaching the destination's onClick,
+    // making navigation away feel stuck. Always drop focus and hide the
+    // keyboard before navigating so this precondition never applies.
+    fun navigateTo(route: String, block: androidx.navigation.NavOptionsBuilder.() -> Unit = {}) {
+        focusManager.clearFocus(force = true)
+        keyboardController?.hide()
+        navController.navigate(route, block)
+    }
 
     Scaffold(
         topBar = {
             TopAppBar(
                 title = { Text("NIVRA") },
                 actions = {
-                    IconButton(onClick = { navController.navigate(Screen.Connection.route) }) {
+                    IconButton(onClick = {
+                        navigateTo(Screen.Connection.route) { launchSingleTop = true }
+                    }) {
                         Icon(Screen.Connection.icon, contentDescription = Screen.Connection.label)
                     }
-                    IconButton(onClick = { navController.navigate(Screen.Settings.route) }) {
+                    IconButton(onClick = {
+                        navigateTo(Screen.Settings.route) { launchSingleTop = true }
+                    }) {
                         Icon(Screen.Settings.icon, contentDescription = Screen.Settings.label)
                     }
                 }
@@ -89,10 +108,16 @@ fun NivraApp(viewModel: AgentViewModel = viewModel()) {
                         label = { Text(screen.label) },
                         selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
                         onClick = {
-                            navController.navigate(screen.route) {
-                                popUpTo(navController.graph.findStartDestination().id) { saveState = true }
+                            // Deliberately no saveState/restoreState: that
+                            // combination with popUpTo(startDestination)
+                            // reproducibly failed to navigate to the start
+                            // destination (Dashboard) when coming from a
+                            // screen outside the tab set (e.g. Settings) --
+                            // popUpTo+launchSingleTop alone reliably bounds
+                            // the back stack to Dashboard without it.
+                            navigateTo(screen.route) {
+                                popUpTo(Screen.Dashboard.route) { inclusive = false }
                                 launchSingleTop = true
-                                restoreState = true
                             }
                         }
                     )
