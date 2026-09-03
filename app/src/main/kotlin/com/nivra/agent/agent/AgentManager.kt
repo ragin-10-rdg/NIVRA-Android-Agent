@@ -13,11 +13,13 @@ import com.nivra.agent.storage.Preferences
 import com.nivra.agent.transport.WazuhTransport
 import com.nivra.agent.utils.CapabilityChecker
 import com.nivra.agent.utils.Logger
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.withContext
 import org.json.JSONObject
 
 /**
@@ -111,8 +113,18 @@ object AgentManager {
     suspend fun refreshStatus() {
         if (!initialized) return
 
-        val deviceInfo = deviceCollector.snapshot()
-        val capabilities = CapabilityChecker.allCapabilities(appContext)
+        // deviceCollector.snapshot(), CapabilityChecker.allCapabilities() and
+        // appCollector.currentInventory() are blocking DevicePolicyManager /
+        // PackageManager Binder calls; refreshStatus() is called from
+        // AgentViewModel on viewModelScope (Main dispatcher), so these must
+        // not run on the caller's dispatcher.
+        val (deviceInfo, capabilities, applications) = withContext(Dispatchers.IO) {
+            Triple(
+                deviceCollector.snapshot(),
+                CapabilityChecker.allCapabilities(appContext),
+                appCollector.currentInventory()
+            )
+        }
         val pending = queue.pendingCount()
         val sent = queue.sentCount()
         val failed = queue.failedCount()
@@ -159,7 +171,7 @@ object AgentManager {
             lastSuccessfulDeliveryEpochMs = recentEvents.firstOrNull { it.state == EventState.SENT }
                 ?.timestampUtc?.toEpochMilli(),
             recentEvents = recentEvents,
-            applications = appCollector.currentInventory(),
+            applications = applications,
             securityEventCount24h = recentEvents.count {
                 it.eventType == EventType.SECURITY_LOG &&
                     it.timestampUtc.isAfter(java.time.Instant.now().minusSeconds(86_400))

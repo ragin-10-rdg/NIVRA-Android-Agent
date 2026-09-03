@@ -12,6 +12,7 @@ import com.nivra.agent.normalization.EventNormalizer
 import com.nivra.agent.storage.EventDatabase
 import com.nivra.agent.storage.KnownPackageEntity
 import com.nivra.agent.storage.MetricsRecorder
+import com.nivra.agent.utils.Logger
 
 /**
  * Collects application inventory metadata (never app content) and, using a
@@ -30,7 +31,7 @@ class ApplicationCollector(private val context: Context) {
         val pm = context.packageManager
         val apps = pm.getInstalledApplications(PackageManager.GET_META_DATA)
 
-        return apps.map { appInfo ->
+        return apps.mapNotNull { appInfo ->
             val packageName = appInfo.packageName
             val installerPackage = try {
                 @Suppress("DEPRECATION")
@@ -38,7 +39,17 @@ class ApplicationCollector(private val context: Context) {
             } catch (e: Exception) {
                 null
             }
-            val pkgInfo = pm.getPackageInfo(packageName, 0)
+            // getInstalledApplications() and getPackageInfo() aren't
+            // atomic -- a package can be uninstalled between the two calls
+            // (or be otherwise inaccessible), which throws
+            // NameNotFoundException. Skip just that package rather than
+            // aborting the whole inventory scan.
+            val pkgInfo = try {
+                pm.getPackageInfo(packageName, 0)
+            } catch (e: Exception) {
+                Logger.w("Skipping $packageName in inventory scan: ${e.javaClass.simpleName}")
+                return@mapNotNull null
+            }
             val isSystem = (appInfo.flags and AndroidAppInfo.FLAG_SYSTEM) != 0
 
             ApplicationInfo(

@@ -25,13 +25,18 @@ class SecurityLogCollector(private val context: Context) {
     private val metrics = MetricsRecorder(context)
 
     suspend fun collect(): List<SecurityEvent> {
-        metrics.recordCollectionAttempt(EventType.SECURITY_LOG.name)
         val capability = CapabilityChecker.securityLogCapability(context)
         if (capability.status != CapabilityStatus.AVAILABLE) {
+            // Not counted as a collection attempt: an unavailable capability
+            // is an expected, gracefully-handled state (see CapabilityChecker),
+            // not a collection failure -- counting it as an "attempt" would
+            // permanently drag down the collection-success-rate metric on any
+            // device that simply isn't Device Owner / logging-enabled.
             Logger.w("SecurityLog unavailable: ${capability.reason}")
             metrics.recordCollectionUnavailable(EventType.SECURITY_LOG.name)
             return emptyList()
         }
+        metrics.recordCollectionAttempt(EventType.SECURITY_LOG.name)
 
         val dpm = context.getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager
         val admin = NivraDeviceAdminReceiver.componentName(context)

@@ -28,13 +28,15 @@ class NetworkCollector(private val context: Context) {
     private val metrics = MetricsRecorder(context)
 
     suspend fun collectBatch(batchToken: Long): List<SecurityEvent> {
-        metrics.recordCollectionAttempt(EventType.NETWORK_EVENT.name)
         val capability = CapabilityChecker.networkLoggingCapability(context)
         if (capability.status != CapabilityStatus.AVAILABLE) {
+            // See SecurityLogCollector.collect() for why this isn't counted
+            // as a collection attempt.
             Logger.w("Network logging unavailable: ${capability.reason}")
             metrics.recordCollectionUnavailable(EventType.NETWORK_EVENT.name)
             return emptyList()
         }
+        metrics.recordCollectionAttempt(EventType.NETWORK_EVENT.name)
 
         val dpm = context.getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager
         val admin = NivraDeviceAdminReceiver.componentName(context)
