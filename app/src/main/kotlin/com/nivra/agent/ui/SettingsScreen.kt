@@ -29,6 +29,8 @@ fun SettingsScreen(
     var agentEnabled by remember { mutableStateOf(prefs.agentEnabled) }
     var logLevel by remember { mutableStateOf(prefs.logLevel) }
     var tokenInput by remember { mutableStateOf("") }
+    var certInput by remember { mutableStateOf("") }
+    var certConfigured by remember { mutableStateOf(prefs.pinnedCertPem.isNotBlank()) }
     var saved by remember { mutableStateOf(false) }
 
     Column(
@@ -68,6 +70,19 @@ fun SettingsScreen(
                 visualTransformation = androidx.compose.ui.text.input.PasswordVisualTransformation(),
                 modifier = Modifier.fillMaxWidth()
             )
+            Spacer(modifier = Modifier.height(8.dp))
+            OutlinedTextField(
+                value = certInput, onValueChange = { certInput = it },
+                label = { Text("Pinned certificate PEM, optional (leave blank to keep current)") },
+                minLines = 3,
+                modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                if (certConfigured) "A pinned certificate is currently configured."
+                else "No pinned certificate configured -- platform CA store only.",
+                style = MaterialTheme.typography.bodySmall
+            )
         }
 
         SectionCard("Heartbeat & Logging") {
@@ -93,6 +108,10 @@ fun SettingsScreen(
         Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = {
             if (tokenInput.isNotBlank()) prefs.enrollmentToken = tokenInput
+            if (certInput.isNotBlank()) {
+                prefs.pinnedCertPem = certInput
+                certConfigured = true
+            }
             onSave(
                 host,
                 portText.toIntOrNull() ?: 8443,

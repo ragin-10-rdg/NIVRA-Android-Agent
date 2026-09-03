@@ -1,6 +1,9 @@
 package com.nivra.agent.transport
 
 import com.nivra.agent.utils.Logger
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 import java.io.OutputStreamWriter
 import java.net.HttpURLConnection
 import java.net.URL
@@ -22,10 +25,16 @@ class ApiClient(
     private val maxRetries: Int = 3
 ) {
 
-    fun postJson(url: String, jsonBody: String, bearerToken: String?, tlsEnabled: Boolean): ApiResponse? {
+    suspend fun postJson(
+        url: String,
+        jsonBody: String,
+        bearerToken: String?,
+        tlsEnabled: Boolean,
+        pinnedCertPem: String? = null
+    ): ApiResponse? {
         var attempt = 0
         while (attempt <= maxRetries) {
-            val result = attemptPost(url, jsonBody, bearerToken, tlsEnabled)
+            val result = attemptPost(url, jsonBody, bearerToken, tlsEnabled, pinnedCertPem)
             if (result != null) {
                 if (result.statusCode in 200..299) return result
                 if (result.statusCode in 400..499) {
@@ -35,20 +44,29 @@ class ApiClient(
             }
             attempt++
             if (attempt <= maxRetries) {
+                // delay() (not Thread.sleep) so a cancelled drain suspends
+                // out immediately instead of blocking the dispatcher thread
+                // through the full backoff window.
                 val backoffMs = (500.0 * 2.0.pow(attempt.toDouble())).toLong()
-                Thread.sleep(min(backoffMs, 8_000))
+                delay(min(backoffMs, 8_000))
             }
         }
         return null
     }
 
-    private fun attemptPost(url: String, jsonBody: String, bearerToken: String?, tlsEnabled: Boolean): ApiResponse? {
+    private suspend fun attemptPost(
+        url: String,
+        jsonBody: String,
+        bearerToken: String?,
+        tlsEnabled: Boolean,
+        pinnedCertPem: String?
+    ): ApiResponse? = withContext(Dispatchers.IO) {
         var connection: HttpURLConnection? = null
-        return try {
+        try {
             val parsed = URL(url)
             connection = parsed.openConnection() as HttpURLConnection
             if (tlsEnabled && connection is HttpsURLConnection) {
-                TlsManager.applyTo(connection)
+                TlsManager.applyTo(connection, pinnedCertPem)
             }
             connection.requestMethod = "POST"
             connection.connectTimeout = connectTimeoutMs

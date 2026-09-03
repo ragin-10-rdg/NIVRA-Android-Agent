@@ -45,6 +45,15 @@ class Preferences(context: Context) {
         get() = prefs.getString(KEY_TOKEN, "") ?: ""
         set(value) = prefs.edit().putString(KEY_TOKEN, value).apply()
 
+    /**
+     * Optional PEM-encoded certificate to pin (in addition to the platform
+     * CA store) for the prototype's self-signed/private-CA Wazuh receiver.
+     * See TlsManager -- blank means "platform CA store only".
+     */
+    var pinnedCertPem: String
+        get() = prefs.getString(KEY_PINNED_CERT, "") ?: ""
+        set(value) = prefs.edit().putString(KEY_PINNED_CERT, value).apply()
+
     var heartbeatIntervalSeconds: Int
         get() = prefs.getInt(KEY_HEARTBEAT_INTERVAL, 900) // 15 min default; spec's 30s
                                                             // example is too aggressive
@@ -83,6 +92,7 @@ class Preferences(context: Context) {
         private const val KEY_PORT = "wazuh_port"
         private const val KEY_TLS = "tls_enabled"
         private const val KEY_TOKEN = "enrollment_token"
+        private const val KEY_PINNED_CERT = "pinned_cert_pem"
         private const val KEY_HEARTBEAT_INTERVAL = "heartbeat_interval_seconds"
         private const val KEY_AGENT_ENABLED = "agent_enabled"
         private const val KEY_LOG_LEVEL = "log_level"

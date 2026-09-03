@@ -12,6 +12,7 @@ import com.nivra.agent.storage.MetricsRecorder
 import com.nivra.agent.storage.Preferences
 import com.nivra.agent.transport.WazuhTransport
 import com.nivra.agent.utils.CapabilityChecker
+import com.nivra.agent.utils.Logger
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -132,6 +133,12 @@ object AgentManager {
                     severity = Severity.valueOf(eventObj?.optString("severity") ?: "INFO"),
                     data = emptyMap(),
                     state = EventState.valueOf(entity.state)
+                )
+            }.onFailure { e ->
+                Logger.w(
+                    "Failed to parse queued event ${entity.eventId} " +
+                        "(type=${entity.eventType}) for status display: " +
+                        "${e.javaClass.simpleName}: ${e.message}"
                 )
             }.getOrNull()
         }

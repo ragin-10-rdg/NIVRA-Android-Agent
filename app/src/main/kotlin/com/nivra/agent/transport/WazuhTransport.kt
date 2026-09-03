@@ -30,12 +30,13 @@ class WazuhTransport(context: Context) {
     private val prefs = Preferences(context)
     private val client = ApiClient()
 
-    fun send(payloadJson: String): Boolean {
+    suspend fun send(payloadJson: String): Boolean {
         val response = client.postJson(
             url = prefs.wazuhIngestUrl(),
             jsonBody = payloadJson,
             bearerToken = prefs.enrollmentToken.ifBlank { null },
-            tlsEnabled = prefs.tlsEnabled
+            tlsEnabled = prefs.tlsEnabled,
+            pinnedCertPem = prefs.pinnedCertPem.ifBlank { null }
         )
         return response != null && response.statusCode in 200..299
     }
