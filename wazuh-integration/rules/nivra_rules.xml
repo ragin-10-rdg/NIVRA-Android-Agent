@@ -99,11 +99,20 @@
     <group>agent_offline,availability,</group>
   </rule>
 
-  <!-- Outdated security patch level -->
+  <!--
+    Outdated security patch level.
+    pcre2 field matching can't do real date arithmetic (no "more than 90
+    days old"), so this whitelists the current + previous calendar year and
+    flags everything else -- same static-pattern limitation as rule 100131's
+    threat-intel placeholder above. MAINTENANCE: update the whitelisted
+    years below at the start of each calendar year (last reviewed: 2026,
+    whitelist 2025-2026), or replace this with a real freshness check
+    computed on-device/receiver-side where date math is trivial.
+  -->
   <rule id="100160" level="6">
     <if_sid>100100</if_sid>
     <field name="event.type">DEVICE_INFO</field>
-    <field name="data.security_patch" type="pcre2">^(202[0-3])-</field>
+    <field name="data.security_patch" type="pcre2">^(?!2025-|2026-)\d{4}-</field>
     <description>NIVRA: Device $(device.device_id) reporting an outdated security patch level ($(data.security_patch)).</description>
     <group>vulnerability,patch_management,</group>
   </rule>
