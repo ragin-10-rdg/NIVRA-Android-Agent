@@ -1,12 +1,17 @@
 package com.nivra.agent.ui
 
+import android.app.admin.DevicePolicyManager
+import android.content.Context
+import android.content.pm.ApplicationInfo
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import com.nivra.agent.dpc.NivraDeviceAdminReceiver
 import com.nivra.agent.storage.Preferences
 
 /**
@@ -32,6 +37,12 @@ fun SettingsScreen(
     var certInput by remember { mutableStateOf("") }
     var certConfigured by remember { mutableStateOf(prefs.pinnedCertPem.isNotBlank()) }
     var saved by remember { mutableStateOf(false) }
+
+    val context = LocalContext.current
+    val isDebugBuild = (context.applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE) != 0
+    var deviceOwnerEnabled by remember { mutableStateOf(NivraDeviceAdminReceiver.isDeviceOwner(context)) }
+    var showRemoveAdminConfirm by remember { mutableStateOf(false) }
+    var adminRemoved by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -105,6 +116,35 @@ fun SettingsScreen(
             }
         }
 
+        if (isDebugBuild) {
+            SectionCard("Device Admin (debug builds only)") {
+                Text(
+                    "Device Owner: " + if (deviceOwnerEnabled) "ENABLED" else "DISABLED",
+                    style = MaterialTheme.typography.bodyMedium
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    "Removing device admin stops SecurityLog/network-log collection " +
+                        "until the app is re-provisioned (adb shell dpm set-device-owner " +
+                        "com.nivra.agent/.dpc.NivraDeviceAdminReceiver). Use this only to " +
+                        "unblock reinstalling from Android Studio during development -- a " +
+                        "Device Owner process can't otherwise be force-stopped.",
+                    style = MaterialTheme.typography.bodySmall
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Button(
+                    onClick = { showRemoveAdminConfirm = true },
+                    enabled = deviceOwnerEnabled
+                ) {
+                    Text("Remove Device Admin")
+                }
+                if (adminRemoved) {
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text("Device admin removed.", style = MaterialTheme.typography.bodySmall)
+                }
+            }
+        }
+
         Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = {
             if (tokenInput.isNotBlank()) prefs.enrollmentToken = tokenInput
@@ -128,5 +168,43 @@ fun SettingsScreen(
             Spacer(modifier = Modifier.height(8.dp))
             Text("Settings saved.", style = MaterialTheme.typography.bodySmall)
         }
+    }
+
+    if (showRemoveAdminConfirm) {
+        AlertDialog(
+            onDismissRequest = { showRemoveAdminConfirm = false },
+            title = { Text("Remove device admin?") },
+            text = {
+                Text(
+                    "This relinquishes Device Owner and deactivates the admin. " +
+                        "SecurityLog and network-log collection stop until you re-run " +
+                        "'adb shell dpm set-device-owner ...' on a clean profile."
+                )
+            },
+            confirmButton = {
+                TextButton(onClick = {
+                    val dpm = context.getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager
+                    val admin = NivraDeviceAdminReceiver.componentName(context)
+                    try {
+                        if (dpm.isDeviceOwnerApp(context.packageName)) {
+                            dpm.clearDeviceOwnerApp(context.packageName)
+                        }
+                        dpm.removeActiveAdmin(admin)
+                    } catch (e: SecurityException) {
+                        // Best effort; nothing more we can do from inside the app.
+                    }
+                    deviceOwnerEnabled = NivraDeviceAdminReceiver.isDeviceOwner(context)
+                    adminRemoved = true
+                    showRemoveAdminConfirm = false
+                }) {
+                    Text("Remove")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showRemoveAdminConfirm = false }) {
+                    Text("Cancel")
+                }
+            }
+        )
     }
 }
