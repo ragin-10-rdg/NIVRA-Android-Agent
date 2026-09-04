@@ -31,6 +31,13 @@ class WazuhTransport(context: Context) {
     private val client = ApiClient()
 
     suspend fun send(payloadJson: String): Boolean {
+        com.nivra.agent.utils.Logger.w(
+            "DIAG token_len=${prefs.enrollmentToken.length} token_sha256=" +
+                java.security.MessageDigest.getInstance("SHA-256")
+                    .digest(prefs.enrollmentToken.toByteArray())
+                    .joinToString("") { "%02x".format(it) } +
+                " payload=" + payloadJson.take(400)
+        )
         val response = client.postJson(
             url = prefs.wazuhIngestUrl(),
             jsonBody = payloadJson,
