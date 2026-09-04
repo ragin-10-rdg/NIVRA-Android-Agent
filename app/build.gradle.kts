@@ -6,15 +6,15 @@ plugins {
 
 android {
     namespace = "com.nivra.agent"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.nivra.agent"
         // Device Owner APIs used here (SecurityLog, network logging) require
-        // API 24+; targeting the Android 14-16 range from the proposal's
-        // test-device spec. minSdk 26 is required by androidx.security-crypto.
+        // API 24+; targeting the Android 11-16 range. minSdk 26 is required
+        // by androidx.security-crypto.
         minSdk = 26
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 1
         versionName = "0.2.0-prototype"
     }
