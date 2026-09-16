@@ -5,8 +5,19 @@
 -->
 <group name="nivra,android,mobile,">
 
+  <!--
+    Matches on the built-in "json" decoder (ruleset/decoders/0006-json_decoders.xml),
+    not nivra_decoder.xml's "nivra-json" -- confirmed via wazuh-logtest that the
+    built-in decoder's broad `^{\s*"` prematch always wins that race regardless of
+    decoder_dir load order or local_decoder.xml placement (and it can't be disabled
+    to let ours win instead: other built-in rulesets, e.g. 0350-amazon_rules.xml,
+    hard-depend on a decoder literally named "json"). JSON_Decoder's field
+    flattening is identical either way, so gate on decoded_as=json plus the
+    presence of schema_version instead of chasing decoder-name precedence.
+  -->
   <rule id="100100" level="0">
-    <decoded_as>nivra-json</decoded_as>
+    <decoded_as>json</decoded_as>
+    <field name="schema_version">\.+</field>
     <description>NIVRA Android agent event received from $(device.device_id).</description>
   </rule>
 

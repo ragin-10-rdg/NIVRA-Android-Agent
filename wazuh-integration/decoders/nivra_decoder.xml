@@ -1,5 +1,5 @@
 <!--
-  NIVRA custom decoder, matching the schema in
+  NIVRA event schema reference, matching
   app/src/main/kotlin/com/nivra/agent/models/SecurityEvent.kt:
 
   {
@@ -12,8 +12,18 @@
     "data": { ... }
   }
 
-  Install: copy to /var/ossec/etc/decoders/nivra_decoder.xml on the Wazuh
-  Manager, then `systemctl restart wazuh-manager`.
+  NOTE: the "nivra-json"/"nivra-fields" decoders below never actually fire --
+  confirmed via wazuh-logtest that the built-in "json" decoder
+  (ruleset/decoders/0006-json_decoders.xml, prematch `^{\s*"`) always wins
+  this prematch race first, regardless of decoder_dir load order or moving
+  this file's content into local_decoder.xml. It can't be disabled either:
+  other built-in rulesets (e.g. 0350-amazon_rules.xml) hard-depend on a
+  decoder literally named "json". nivra_rules.xml's base rule (100100)
+  matches on decoded_as=json + a schema_version field check instead --
+  JSON_Decoder's dot-notation field flattening is identical either way, so
+  that's a fully working substitute. This file is kept only as schema
+  documentation; installing it is harmless but not what actually makes
+  ingestion work.
 -->
 <decoder name="nivra-json">
   <prematch>"schema_version"</prematch>
