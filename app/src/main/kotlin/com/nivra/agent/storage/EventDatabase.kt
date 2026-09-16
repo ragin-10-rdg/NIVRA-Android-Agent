@@ -25,7 +25,7 @@ interface EventDao {
     @Query("UPDATE queued_events SET state = :state, attemptCount = attemptCount + 1, lastAttemptAtMs = :attemptAtMs WHERE eventId = :eventId")
     suspend fun markAttempt(eventId: String, state: String, attemptAtMs: Long)
 
-    @Query("DELETE FROM queued_events WHERE state = 'SENT' AND createdAtMs < :beforeMs")
+    @Query("DELETE FROM queued_events WHERE state = 'SENT' AND lastAttemptAtMs < :beforeMs")
     suspend fun pruneDelivered(beforeMs: Long)
 
     @Query("DELETE FROM queued_events WHERE attemptCount >= :maxAttempts")
