@@ -8,7 +8,9 @@ import com.nivra.agent.models.SecurityEvent
  * (PENDING), then a background pass in AgentManager attempts delivery:
  * SENDING -> SENT on success, SENDING -> FAILED (retry later) on failure.
  * Exhausted events (max attempts reached) are dropped and counted toward
- * the delivery-reliability metric as permanent failures.
+ * the delivery-reliability metric as permanent failures. A row that's still
+ * SENDING when a new drain() starts means the process died mid-delivery on
+ * a previous pass -- see EventDao.recoverOrphanedSending().
  */
 class EventQueue(context: android.content.Context) {
 
@@ -39,6 +41,7 @@ class EventQueue(context: android.content.Context) {
      * WorkManager already re-runs this periodically -- see AgentManager).
      */
     suspend fun drain(sendFn: suspend (String) -> Boolean, maxAttempts: Int) {
+        dao.recoverOrphanedSending()
         dao.dropExhausted(maxAttempts)
         val batch = dao.nextBatch()
         for (entity in batch) {

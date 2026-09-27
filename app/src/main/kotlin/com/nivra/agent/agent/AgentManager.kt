@@ -176,7 +176,7 @@ object AgentManager {
             isRunning = serviceRunning,
             device = deviceInfo,
             capabilities = capabilities,
-            connectionStatus = connectionStatusFrom(pending, failed),
+            connectionStatus = connectionStatusFrom(pending, failed, sent, prefs.wazuhHost),
             wazuhServer = "${prefs.wazuhHost}:${prefs.wazuhPort}",
             eventsCollected = metricsSummary.eventsCollected,
             eventsSent = sent.toLong(),
@@ -197,8 +197,19 @@ object AgentManager {
         )
     }
 
-    private fun connectionStatusFrom(pending: Int, failed: Int): ConnectionStatus = when {
+    /**
+     * CONNECTED must mean "has actually reached the server," not just "queue
+     * isn't backed up" -- a fresh install with no host configured has
+     * pending=0 and failed=0 too, which used to fall straight into
+     * CONNECTED. UNKNOWN covers both "not configured yet" and "configured
+     * but no delivery attempt has resolved either way yet"; DISCONNECTED is
+     * reserved for a host that's actually been tried and is failing.
+     */
+    private fun connectionStatusFrom(pending: Int, failed: Int, sent: Int, host: String): ConnectionStatus = when {
+        host.isBlank() -> ConnectionStatus.UNKNOWN
+        sent == 0 && failed == 0 -> ConnectionStatus.UNKNOWN
         failed > 5 -> ConnectionStatus.DISCONNECTED
+        sent == 0 -> ConnectionStatus.DISCONNECTED
         pending > 10 -> ConnectionStatus.DEGRADED
         else -> ConnectionStatus.CONNECTED
     }

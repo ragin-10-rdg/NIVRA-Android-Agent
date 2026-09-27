@@ -100,6 +100,20 @@ class NivraIngestHandler(BaseHTTPRequestHandler):
 
         event["_receiver_ingested_at"] = datetime.now(timezone.utc).isoformat()
 
+        # Wazuh's default alert index template statically maps "data.data" as
+        # a plain keyword (string) -- a leftover from built-in decoders that
+        # dump raw unparsed text there. Since Wazuh nests all of a JSON
+        # decoder's flattened fields under a top-level "data" object in the
+        # alert schema, this event's own "data" object lands at exactly that
+        # reserved path and gets silently dropped by the indexer
+        # (mapper_parsing_exception) whenever it's non-empty -- confirmed via
+        # the wazuh-alerts-* index mapping, where only HEARTBEAT events (the
+        # one type whose "data" is always {}) were ever actually searchable.
+        # Rename it here, after validating the wire schema above, so the
+        # Android app's schema stays untouched; nivra_rules.xml/dashboards
+        # reference "details.*" to match.
+        event["details"] = event.pop("data")
+
         os.makedirs(LOG_DIR, exist_ok=True)
         with open(LOG_FILE, "a", encoding="utf-8") as f:
             f.write(json.dumps(event) + "\n")

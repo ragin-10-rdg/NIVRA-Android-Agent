@@ -12,6 +12,20 @@
     "data": { ... }
   }
 
+  NOTE: nivra_receiver.py renames this "data" object to "details" before
+  writing it to the JSON Lines file Wazuh tails (nivra_offline_watchdog.py's
+  synthetic AGENT_OFFLINE events do the same directly). Wazuh's default
+  alert index template reserves "data.data" as a plain keyword field (raw
+  leftover text from other built-in decoders); since Wazuh nests all of a
+  JSON decoder's flattened fields under a top-level "data" object in the
+  alert schema, this event's own "data" object would land at exactly that
+  reserved path and get silently dropped by the indexer whenever non-empty
+  -- confirmed via the wazuh-alerts-* index mapping, where only HEARTBEAT
+  (the one type whose object is always {}) was ever actually searchable.
+  nivra_rules.xml and the dashboards doc reference "details.*", not
+  "data.*", for this reason. The wire format from the Android app is
+  unaffected -- this rename happens only on the Wazuh-integration side.
+
   NOTE: the "nivra-json"/"nivra-fields" decoders below never actually fire --
   confirmed via wazuh-logtest that the built-in "json" decoder
   (ruleset/decoders/0006-json_decoders.xml, prematch `^{\s*"`) always wins
@@ -41,5 +55,5 @@
     device.device_id, device.android_version, device.security_patch
     agent.name, agent.version
     event.type, event.severity
-    data.<field>
+    details.<field> (renamed from the wire schema's "data" -- see NOTE above)
 -->

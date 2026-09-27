@@ -109,7 +109,12 @@ def write_offline_event(device_id: str):
         "device": {"device_id": device_id, "android_version": "unknown", "security_patch": "unknown"},
         "agent": {"name": "NIVRA Offline Watchdog", "version": "0.2.0-prototype"},
         "event": {"type": "AGENT_OFFLINE", "severity": "HIGH"},
-        "data": {"threshold_seconds": OFFLINE_THRESHOLD_SECONDS},
+        # "details", not "data" -- this writes directly into the same JSON
+        # Lines file the receiver produces, and nivra_receiver.py renames
+        # its own "data" to "details" for exactly this reason: Wazuh's
+        # default alert index template reserves "data.data" as a keyword
+        # field, silently dropping any non-empty object written there.
+        "details": {"threshold_seconds": OFFLINE_THRESHOLD_SECONDS},
     }
     os.makedirs(os.path.dirname(OUTPUT_LOG_FILE), exist_ok=True)
     with open(OUTPUT_LOG_FILE, "a", encoding="utf-8") as f:

@@ -25,6 +25,22 @@ interface EventDao {
     @Query("UPDATE queued_events SET state = :state, attemptCount = attemptCount + 1, lastAttemptAtMs = :attemptAtMs WHERE eventId = :eventId")
     suspend fun markAttempt(eventId: String, state: String, attemptAtMs: Long)
 
+    /**
+     * A row only stays SENDING for the duration of one drain() call -- it's
+     * always followed synchronously by SENT or FAILED, before the next entity
+     * in the batch starts. If the process dies (crash, or the app/emulator
+     * killed) between those two writes, the row is left stuck in SENDING,
+     * which nextBatch()/pendingCount() don't select -- orphaned forever, with
+     * no further attempts and no pending/failed count reflecting it. Any
+     * SENDING row found when a new drain() begins must be exactly that case
+     * (this method's own transition out of SENDING always completes before
+     * returning), so recover it back to FAILED -- not PENDING, since
+     * markAttempt already counted the interrupted attempt against
+     * attemptCount when it moved the row into SENDING.
+     */
+    @Query("UPDATE queued_events SET state = 'FAILED' WHERE state = 'SENDING'")
+    suspend fun recoverOrphanedSending()
+
     @Query("DELETE FROM queued_events WHERE state = 'SENT' AND lastAttemptAtMs < :beforeMs")
     suspend fun pruneDelivered(beforeMs: Long)
 

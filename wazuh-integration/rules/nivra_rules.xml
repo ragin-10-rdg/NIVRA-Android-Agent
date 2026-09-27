@@ -21,12 +21,23 @@
     <description>NIVRA Android agent event received from $(device.device_id).</description>
   </rule>
 
-  <!-- Use case 1: failed unlock attempts -->
+  <!--
+    Use case 1: failed unlock attempts.
+    Fields read "details.*", not "data.*": nivra_receiver.py renames the
+    event's own "data" object to "details" before writing it to the JSON
+    Lines file Wazuh tails, because Wazuh's default alert index template
+    reserves "data.data" as a plain keyword field (used by other built-in
+    decoders for raw leftover text) -- any event whose "data" object landed
+    there non-empty was silently dropped by the indexer even though it
+    decoded and matched rules fine on the manager (confirmed via the
+    wazuh-alerts-* index mapping: only HEARTBEAT, whose object is always
+    {}, ever actually reached the dashboard).
+  -->
   <rule id="100101" level="5">
     <if_sid>100100</if_sid>
     <field name="event.type">SECURITY_LOG</field>
-    <field name="data.subtype">failed_unlock</field>
-    <field name="data.success">false</field>
+    <field name="details.subtype">failed_unlock</field>
+    <field name="details.success">false</field>
     <description>NIVRA: Failed device unlock attempt on $(device.device_id).</description>
     <group>authentication_failed,</group>
   </rule>
@@ -41,16 +52,16 @@
   <rule id="100110" level="5">
     <if_sid>100100</if_sid>
     <field name="event.type">APPLICATION_INSTALL</field>
-    <field name="data.approved">true</field>
-    <description>NIVRA: New (approved-baseline) application installed on $(device.device_id): $(data.package_name).</description>
+    <field name="details.approved">true</field>
+    <description>NIVRA: New (approved-baseline) application installed on $(device.device_id): $(details.package_name).</description>
     <group>software_installation,</group>
   </rule>
 
   <rule id="100111" level="9">
     <if_sid>100100</if_sid>
     <field name="event.type">APPLICATION_INSTALL</field>
-    <field name="data.approved">false</field>
-    <description>NIVRA: UNEXPECTED application installed on managed device $(device.device_id): $(data.package_name) (not on approved baseline).</description>
+    <field name="details.approved">false</field>
+    <description>NIVRA: UNEXPECTED application installed on managed device $(device.device_id): $(details.package_name) (not on approved baseline).</description>
     <group>software_installation,unexpected_application,</group>
   </rule>
 
@@ -59,7 +70,7 @@
     <if_sid>100100</if_sid>
     <field name="event.type">SECURITY_CONFIGURATION</field>
     <field name="event.severity">MEDIUM</field>
-    <description>NIVRA: Security-configuration drift detected on $(device.device_id): $(data.drifted_fields).</description>
+    <description>NIVRA: Security-configuration drift detected on $(device.device_id): $(details.drifted_fields).</description>
     <group>configuration_changed,</group>
   </rule>
 
@@ -73,7 +84,7 @@
 
   <rule id="100131" level="9">
     <if_sid>100130</if_sid>
-    <field name="data.hostname" type="pcre2">(?i)(\.ru|\.tk|pastebin\.com|\bc2\b)</field>
+    <field name="details.hostname" type="pcre2">(?i)(\.ru|\.tk|pastebin\.com|\bc2\b)</field>
     <description>NIVRA: Network activity from $(device.device_id) to a known-suspicious or blocklisted destination pattern. Replace this placeholder pattern with your real threat-intel feed.</description>
     <group>network_activity,threat_intel,</group>
   </rule>
@@ -132,8 +143,8 @@
   <rule id="100160" level="6">
     <if_sid>100100</if_sid>
     <field name="event.type">DEVICE_INFO</field>
-    <field name="data.security_patch" type="pcre2">^(?!2025-|2026-)\d{4}-</field>
-    <description>NIVRA: Device $(device.device_id) reporting an outdated security patch level ($(data.security_patch)).</description>
+    <field name="details.security_patch" type="pcre2">^(?!2025-|2026-)\d{4}-</field>
+    <description>NIVRA: Device $(device.device_id) reporting an outdated security patch level ($(details.security_patch)).</description>
     <group>vulnerability,patch_management,</group>
   </rule>
 
