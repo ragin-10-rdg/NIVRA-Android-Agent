@@ -53,7 +53,14 @@ class NetworkCollector(private val context: Context) {
             return emptyList()
         }
 
-        val result = events.map { event ->
+        val result = events.mapNotNull { event ->
+            // ConnectEvents with port 0 aren't real connections -- Android
+            // emits these for loopback (::1) socket setup probes across
+            // many packages, not just this agent's own traffic. They carry
+            // no destination worth alerting on and were >95% of NETWORK_EVENT
+            // volume, so drop them here rather than queue/ship/index them.
+            if (event is ConnectEvent && event.port == 0) return@mapNotNull null
+
             val data: Map<String, Any?> = when (event) {
                 is DnsEvent -> mapOf(
                     "type" to "dns",

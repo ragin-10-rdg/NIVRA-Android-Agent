@@ -30,7 +30,7 @@ SCENARIO_RULE_MAP = {
     "failed_unlock": [100101, 100102],
     "unexpected_app_install": [100110, 100111],
     "config_drift": [100120],
-    "suspicious_network": [100130, 100131],
+    "suspicious_network": [100131, 100132, 100133, 100134, 100135, 100136],
     "agent_offline": [100151],
     "adb_activity": [100140],
 }

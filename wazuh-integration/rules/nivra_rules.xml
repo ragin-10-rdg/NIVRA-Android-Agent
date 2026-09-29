@@ -74,19 +74,81 @@
     <group>configuration_changed,</group>
   </rule>
 
-  <!-- Use case 4: network activity + suspicious destinations -->
-  <rule id="100130" level="3">
+  <!--
+    Use case 4: network activity + suspicious destinations.
+    100130 itself is level="0" (correlation-only, same pattern as the
+    100100 base rule -- see the HEARTBEAT comment below for why level 0
+    still lets if_sid children fire without writing its own alert). Plain
+    "app made a network connection" is not interesting on its own and was
+    >95% of all NIVRA alert volume before this; only the restricted-
+    destination child rules below (100131 hostname, 100132 IP) actually
+    alert, and only they get written to wazuh-alerts-*/the dashboard.
+    details.type is "dns" or "connect" (see NetworkCollector.kt) -- dns
+    events carry details.hostname, connect events carry details.ip_address
+    and details.port.
+  -->
+  <rule id="100130" level="0">
     <if_sid>100100</if_sid>
     <field name="event.type">NETWORK_EVENT</field>
-    <description>NIVRA: Network activity recorded from $(device.device_id).</description>
+    <description>NIVRA: $(details.type) from $(details.package_name) on $(device.device_id) -- host=$(details.hostname) ip=$(details.ip_address) port=$(details.port).</description>
     <group>network_activity,</group>
   </rule>
 
+  <!--
+    Real threat-intel IOC matches, sourced from
+    wazuh-integration/threat-intel/iocs.csv (269 real IOCs from ThreatFox,
+    URLhaus, MalwareBazaar, Blocklist.de, OpenPhish -- see that directory's
+    README.md/wazuh_ioc_mapping.md for provenance and methodology). The
+    CDB lists below are generated from that CSV
+    (wazuh-integration/lists/build_cdb_lists.py-equivalent; regenerate and
+    re-sync to the deployed stack whenever iocs.csv is refreshed) --
+    replaces the old inline pcre2 placeholder patterns entirely. Only
+    categories with a real outbound-telemetry match today (c2, phishing,
+    ransomware, malware domains) are wired here; `scanning` and the IP
+    side of `brute-force` in the dataset describe *inbound* attacker
+    reputation, not something NIVRA's outbound-only NETWORK_EVENT can
+    match against yet -- see wazuh_ioc_mapping.md's per-category notes.
+  -->
   <rule id="100131" level="9">
     <if_sid>100130</if_sid>
-    <field name="details.hostname" type="pcre2">(?i)(\.ru|\.tk|pastebin\.com|\bc2\b)</field>
-    <description>NIVRA: Network activity from $(device.device_id) to a known-suspicious or blocklisted destination pattern. Replace this placeholder pattern with your real threat-intel feed.</description>
-    <group>network_activity,threat_intel,</group>
+    <list field="details.hostname" lookup="match_key">etc/lists/nivra_phishing_domains</list>
+    <description>NIVRA: $(details.package_name) on $(device.device_id) resolved a known phishing hostname: $(details.hostname) (threat intel: nivra_phishing_domains).</description>
+    <group>network_activity,threat_intel,restricted_destination,phishing,</group>
+  </rule>
+
+  <rule id="100132" level="10">
+    <if_sid>100130</if_sid>
+    <list field="details.ip_address" lookup="address_match_key">etc/lists/nivra_c2_ips</list>
+    <description>NIVRA: $(details.package_name) on $(device.device_id) connected to a known C2 IP $(details.ip_address):$(details.port) (threat intel: nivra_c2_ips).</description>
+    <group>network_activity,threat_intel,restricted_destination,c2,</group>
+  </rule>
+
+  <rule id="100133" level="10">
+    <if_sid>100130</if_sid>
+    <list field="details.hostname" lookup="match_key">etc/lists/nivra_c2_domains</list>
+    <description>NIVRA: $(details.package_name) on $(device.device_id) resolved a known C2 hostname: $(details.hostname) (threat intel: nivra_c2_domains).</description>
+    <group>network_activity,threat_intel,restricted_destination,c2,</group>
+  </rule>
+
+  <rule id="100134" level="13">
+    <if_sid>100130</if_sid>
+    <list field="details.ip_address" lookup="address_match_key">etc/lists/nivra_ransomware_ips</list>
+    <description>NIVRA: $(details.package_name) on $(device.device_id) connected to a known ransomware-affiliated IP $(details.ip_address):$(details.port) (threat intel: nivra_ransomware_ips).</description>
+    <group>network_activity,threat_intel,restricted_destination,ransomware,</group>
+  </rule>
+
+  <rule id="100135" level="13">
+    <if_sid>100130</if_sid>
+    <list field="details.hostname" lookup="match_key">etc/lists/nivra_ransomware_domains</list>
+    <description>NIVRA: $(details.package_name) on $(device.device_id) resolved a known ransomware-affiliated hostname: $(details.hostname) (threat intel: nivra_ransomware_domains).</description>
+    <group>network_activity,threat_intel,restricted_destination,ransomware,</group>
+  </rule>
+
+  <rule id="100136" level="8">
+    <if_sid>100130</if_sid>
+    <list field="details.hostname" lookup="match_key">etc/lists/nivra_malware_domains</list>
+    <description>NIVRA: $(details.package_name) on $(device.device_id) resolved a known malware-distribution hostname: $(details.hostname) (threat intel: nivra_malware_domains).</description>
+    <group>network_activity,threat_intel,restricted_destination,malware,</group>
   </rule>
 
   <!-- ADB / administrative activity -->

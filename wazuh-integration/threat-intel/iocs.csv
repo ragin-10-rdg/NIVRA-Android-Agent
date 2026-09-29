@@ -1,0 +1,270 @@
+ioc_id,ioc_type,ioc,category,threat,malware_family,confidence,source,first_seen,last_seen,enabled
+IOC-0001,ip,1.0.164.165,brute-force,ssh_bruteforce,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0002,ip,1.117.72.220,brute-force,ssh_bruteforce,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0003,ip,1.162.248.139,brute-force,ssh_bruteforce,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0004,ip,1.2.187.97,brute-force,ssh_bruteforce,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0005,ip,1.209.110.147,brute-force,ssh_bruteforce,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0006,ip,1.214.214.114,brute-force,ssh_bruteforce,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0007,ip,1.222.42.237,brute-force,ssh_bruteforce,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0008,ip,1.234.27.159,brute-force,ssh_bruteforce,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0009,ip,1.234.28.15,brute-force,ssh_bruteforce,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0010,ip,1.238.106.229,brute-force,ssh_bruteforce,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0011,ip,1.27.251.252,brute-force,ssh_bruteforce,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0012,ip,1.39.52.82,brute-force,login_bruteforce,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0013,ip,1.53.115.117,brute-force,login_bruteforce,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0014,ip,1.92.82.192,brute-force,ssh_bruteforce,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0015,ip,1.95.150.49,brute-force,login_bruteforce,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0016,ip,1.95.187.152,brute-force,ssh_bruteforce,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0017,ip,100.11.14.163,brute-force,ssh_bruteforce,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0018,ip,100.129.234.164,brute-force,login_bruteforce,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0019,ip,100.158.160.175,brute-force,login_bruteforce,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0020,ip,100.199.237.233,brute-force,login_bruteforce,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0021,ip,100.59.196.196,brute-force,ssh_bruteforce,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0022,ip,101.0.79.170,brute-force,ssh_bruteforce,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0023,ip,101.126.141.163,brute-force,ssh_bruteforce,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0024,ip,101.126.153.162,brute-force,ssh_bruteforce,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0025,ip,101.126.24.71,brute-force,ssh_bruteforce,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0026,ip,101.126.53.14,brute-force,ssh_bruteforce,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0027,ip,101.126.67.70,brute-force,ssh_bruteforce,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0028,ip,101.126.69.201,brute-force,ssh_bruteforce,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0029,ip,101.127.136.208,brute-force,login_bruteforce,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0030,ip,101.128.86.33,brute-force,ssh_bruteforce,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0031,ip,101.132.85.130,brute-force,ssh_bruteforce,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0032,ip,101.200.132.99,brute-force,ssh_bruteforce,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0033,ip,101.200.184.113,brute-force,ssh_bruteforce,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0034,ip,101.200.221.177,brute-force,ssh_bruteforce,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0035,ip,101.201.226.38,brute-force,ssh_bruteforce,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0036,ip,101.201.234.37,brute-force,ssh_bruteforce,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0037,ip,101.201.38.226,brute-force,ssh_bruteforce,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0038,ip,101.254.231.182,brute-force,login_bruteforce,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0039,ip,101.57.216.115,brute-force,login_bruteforce,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0040,ip,102.164.243.109,brute-force,login_bruteforce,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0041,ip,102.209.109.183,brute-force,login_bruteforce,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0042,ip,102.213.179.104,brute-force,login_bruteforce,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0043,ip,102.219.208.66,brute-force,login_bruteforce,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0044,ip,102.220.12.234,brute-force,login_bruteforce,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0045,ip,102.220.160.173,brute-force,login_bruteforce,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0046,ip,102.220.161.64,brute-force,login_bruteforce,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0047,ip,102.251.45.33,brute-force,login_bruteforce,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0048,ip,102.32.172.27,brute-force,login_bruteforce,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0049,ip,102.66.135.80,brute-force,login_bruteforce,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0050,ip,103.104.214.211,brute-force,login_bruteforce,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0051,ip,101.32.204.81,c2,command_and_control,Cobalt Strike,100,ThreatFox,2021-12-13,2026-09-29,true
+IOC-0052,ip,101.34.182.130,c2,command_and_control,Cobalt Strike,100,ThreatFox,2022-01-29,2026-09-29,true
+IOC-0053,ip,104.128.92.144,c2,command_and_control,Cobalt Strike,100,ThreatFox,2021-10-31,2026-09-29,true
+IOC-0054,ip,107.172.219.129,c2,command_and_control,Cobalt Strike,100,ThreatFox,2022-01-22,2026-09-29,true
+IOC-0055,ip,107.173.89.148,c2,command_and_control,Cobalt Strike,100,ThreatFox,2021-11-04,2026-09-29,true
+IOC-0056,ip,111.230.196.200,c2,command_and_control,Cobalt Strike,100,ThreatFox,2021-10-22,2026-09-29,true
+IOC-0057,ip,121.37.255.60,c2,command_and_control,Cobalt Strike,100,ThreatFox,2021-10-09,2026-09-29,true
+IOC-0058,ip,138.68.227.71,c2,command_and_control,Cobalt Strike,100,ThreatFox,2022-02-21,2026-09-29,true
+IOC-0059,ip,139.198.183.44,c2,command_and_control,Cobalt Strike,100,ThreatFox,2021-10-11,2026-09-29,true
+IOC-0060,ip,143.198.110.248,c2,command_and_control,Cobalt Strike,100,ThreatFox,2022-02-21,2026-09-29,true
+IOC-0061,ip,146.70.29.233,c2,command_and_control,Cobalt Strike,100,ThreatFox,2022-01-25,2026-09-29,true
+IOC-0062,ip,149.255.35.131,c2,command_and_control,Cobalt Strike,100,ThreatFox,2022-01-14,2026-09-29,true
+IOC-0063,ip,159.65.246.188,c2,command_and_control,Cobalt Strike,100,ThreatFox,2022-02-22,2026-09-29,true
+IOC-0064,ip,161.35.137.163,c2,command_and_control,Cobalt Strike,100,ThreatFox,2022-02-21,2026-09-29,true
+IOC-0065,ip,165.227.219.211,c2,command_and_control,Cobalt Strike,100,ThreatFox,2022-02-21,2026-09-29,true
+IOC-0066,ip,165.227.23.218,c2,command_and_control,Cobalt Strike,100,ThreatFox,2022-02-21,2026-09-29,true
+IOC-0067,ip,165.232.154.73,c2,command_and_control,Cobalt Strike,100,ThreatFox,2022-02-21,2026-09-29,true
+IOC-0068,ip,168.61.180.98,c2,command_and_control,Cobalt Strike,100,ThreatFox,2022-02-09,2026-09-29,true
+IOC-0069,ip,178.128.171.206,c2,command_and_control,Cobalt Strike,100,ThreatFox,2022-02-21,2026-09-29,true
+IOC-0070,ip,192.227.155.185,c2,command_and_control,Cobalt Strike,100,ThreatFox,2022-01-25,2026-09-29,true
+IOC-0071,ip,192.241.133.130,c2,command_and_control,Cobalt Strike,100,ThreatFox,2022-02-22,2026-09-29,true
+IOC-0072,ip,193.201.9.229,c2,command_and_control,Cobalt Strike,100,ThreatFox,2022-01-18,2026-09-29,true
+IOC-0073,ip,217.79.243.148,c2,command_and_control,Cobalt Strike,100,ThreatFox,2022-01-15,2026-09-29,true
+IOC-0074,ip,23.224.152.139,c2,command_and_control,Cobalt Strike,100,ThreatFox,2021-10-13,2026-09-29,true
+IOC-0075,ip,23.227.198.246,c2,command_and_control,Cobalt Strike,100,ThreatFox,2022-01-15,2026-09-29,true
+IOC-0076,ip,39.104.25.164,c2,command_and_control,Cobalt Strike,100,ThreatFox,2022-01-07,2026-09-29,true
+IOC-0077,ip,39.98.48.153,c2,command_and_control,Cobalt Strike,100,ThreatFox,2022-01-10,2026-09-29,true
+IOC-0078,ip,45.12.1.24,c2,command_and_control,Cobalt Strike,100,ThreatFox,2022-03-06,2026-09-29,true
+IOC-0079,ip,45.12.1.25,c2,command_and_control,Cobalt Strike,100,ThreatFox,2022-03-05,2026-09-29,true
+IOC-0080,ip,45.12.1.26,c2,command_and_control,Cobalt Strike,100,ThreatFox,2022-03-05,2026-09-29,true
+IOC-0081,ip,45.55.36.143,c2,command_and_control,Cobalt Strike,100,ThreatFox,2022-02-20,2026-09-29,true
+IOC-0082,ip,47.95.207.79,c2,command_and_control,Cobalt Strike,100,ThreatFox,2021-09-18,2026-09-29,true
+IOC-0083,ip,62.113.255.12,c2,command_and_control,Cobalt Strike,100,ThreatFox,2021-11-22,2026-09-29,true
+IOC-0084,ip,64.227.0.177,c2,command_and_control,Cobalt Strike,100,ThreatFox,2022-02-21,2026-09-29,true
+IOC-0085,ip,68.183.200.63,c2,command_and_control,Cobalt Strike,100,ThreatFox,2022-02-21,2026-09-29,true
+IOC-0086,ip,77.83.36.54,c2,command_and_control,Cobalt Strike,100,ThreatFox,2021-12-16,2026-09-29,true
+IOC-0087,ip,81.68.225.136,c2,command_and_control,Cobalt Strike,100,ThreatFox,2022-01-13,2026-09-29,true
+IOC-0088,domain,bornometa.com,c2,command_and_control,Cobalt Strike,100,ThreatFox,2022-02-01,2026-09-29,true
+IOC-0089,domain,brikeb.com,c2,command_and_control,Cobalt Strike,100,ThreatFox,2022-03-09,2026-09-29,true
+IOC-0090,domain,citrixseruritys.com,c2,command_and_control,Cobalt Strike,100,ThreatFox,2022-01-18,2026-09-29,true
+IOC-0091,domain,defegh.com,c2,command_and_control,Cobalt Strike,100,ThreatFox,2022-03-01,2026-09-29,true
+IOC-0092,domain,defenr.com,c2,command_and_control,Cobalt Strike,100,ThreatFox,2022-03-09,2026-09-29,true
+IOC-0093,domain,fivepointschiro.com,c2,command_and_control,Cobalt Strike,100,ThreatFox,2021-10-27,2026-09-29,true
+IOC-0094,domain,jenevabaiden.com,c2,command_and_control,Cobalt Strike,100,ThreatFox,2022-02-01,2026-09-29,true
+IOC-0095,domain,kapuleti.com,c2,command_and_control,Cobalt Strike,100,ThreatFox,2022-03-08,2026-09-29,true
+IOC-0096,domain,klycnmik.com,c2,command_and_control,Cobalt Strike,100,ThreatFox,2022-03-01,2026-09-29,true
+IOC-0097,domain,lifegothistory.com,c2,command_and_control,Cobalt Strike,100,ThreatFox,2022-02-27,2026-09-29,true
+IOC-0098,domain,milanvar.com,c2,command_and_control,Cobalt Strike,100,ThreatFox,2022-01-18,2026-09-29,true
+IOC-0099,domain,ngrety.com,c2,command_and_control,Cobalt Strike,100,ThreatFox,2022-03-01,2026-09-29,true
+IOC-0100,domain,sbronm.com,c2,command_and_control,Cobalt Strike,100,ThreatFox,2022-02-01,2026-09-29,true
+IOC-0101,hash,3e3f0f03a52304570aaf18d4536e8be8a3577e68a198edc53e5877283c18ea5d,malware,payload_delivery,Unknown,70,MalwareBazaar,2026-09-29,,true
+IOC-0102,hash,43138adeff58347b55fbb2d28d7ff2b5a240767ddbd15cb6c0e1f9e0bf72a2ec,malware,payload_delivery,DCRat,100,ThreatFox,2024-07-27,2026-09-28,true
+IOC-0103,hash,433cb99f5585535581a53c07ae7747241074d52ca83be7ef2f46c48ae02e7c24,malware,payload_delivery,SmokeLoader,100,ThreatFox,2023-04-24,2026-09-28,true
+IOC-0104,hash,470d4480153775e7c819ee328fab16b117724640793484172d7a200d2a02eb6f,malware,payload_delivery,AsyncRAT,100,ThreatFox,2023-10-24,2026-09-28,true
+IOC-0105,hash,48c368d7fdacb97f86acb10aee2115276ad56c7e8b470875f641cfdf0303a5fa,malware,payload_delivery,SmokeLoader,100,ThreatFox,2023-04-24,2026-09-28,true
+IOC-0106,hash,4badc8c022c02a6deca9e59c4d3c0ba95d5be0abbd272739ba3199086e5619af,malware,payload_delivery,Remcos,100,ThreatFox,2023-08-14,2026-09-28,true
+IOC-0107,hash,642649ebce20df2446dd0cab4a24d9c06ff051d449fdf854336bf4726055900a,malware,payload_delivery,Unknown,70,MalwareBazaar,2026-09-29,,true
+IOC-0108,hash,64fa2a3b7846e061b99ad6c66b30fca6459a58935b29d7e45e88b3698281a2a4,malware,payload_delivery,Unknown,70,MalwareBazaar,2026-09-29,,true
+IOC-0109,hash,66d3101e3b2207acdbdd9d0c14a1c3ea064e14a771705d8a4583faecaba98544,malware,payload_delivery,SnakeKeylogger,70,MalwareBazaar,2026-09-29,,true
+IOC-0110,hash,6eb93335fb25d5301ec8a84980765a56746297166f79baadb26d3e7159bd06a8,malware,payload_delivery,Mirai,70,MalwareBazaar,2026-09-29,,true
+IOC-0111,hash,74d03fc1f9576464040569101e660954c215695e89a0f447e08a2da502040bc4,malware,payload_delivery,Unknown,70,MalwareBazaar,2026-09-29,,true
+IOC-0112,hash,acb72157d8ced316e47b91f7c1c1e6a55f757b3c9e2b6af9b489fec18e4396a9,malware,payload_delivery,Unknown,70,MalwareBazaar,2026-09-29,,true
+IOC-0113,hash,c258229ec4b1519fb02c5df196b774f131c7d60cf650ff59ca7c97f53d4b9434,malware,payload_delivery,Unknown,70,MalwareBazaar,2026-09-29,,true
+IOC-0114,hash,c63927180770c605bfc6b7c69b1198fe57cba36a08fc9799e6f0325468dd0584,malware,payload_delivery,Mirai,70,MalwareBazaar,2026-09-29,,true
+IOC-0115,domain,clickstream.icu,malware,payload_delivery,Unknown malware,100,ThreatFox,2026-02-24,2026-09-28,true
+IOC-0116,domain,datapixel.icu,malware,payload_delivery,Unknown malware,100,ThreatFox,2026-02-24,2026-09-28,true
+IOC-0117,domain,datapointly.icu,malware,payload_delivery,Unknown malware,100,ThreatFox,2026-02-24,2026-09-29,true
+IOC-0118,hash,dc5021a0e1d00fb1da9eef2b5d5ac3f9a5906e5c3c17470807c3845083ac5a6d,malware,payload_delivery,Unknown,70,MalwareBazaar,2026-09-29,,true
+IOC-0119,hash,dd1c3b2bfe32b41902ffe875e568f52f44f0900209b9cb447c9ae4444a5dce4e,malware,payload_delivery,Unknown,70,MalwareBazaar,2026-09-29,,true
+IOC-0120,hash,e44869eb433cab78c1c26f9200b172fc198707b4f593129db4f5f911e5ef7573,malware,payload_delivery,Unknown,70,MalwareBazaar,2026-09-29,,true
+IOC-0121,hash,e6ae38bf506ed49e46ef94ec85afc458058e983f2bb2bbb34e28b1d3acfcdbff,malware,payload_delivery,Unknown,70,MalwareBazaar,2026-09-29,,true
+IOC-0122,hash,f316a9d6705077d4b0ef17ea2c9bc1a540d6b05b2bd1351e4bd7bfa200e81487,malware,payload_delivery,Unknown,70,MalwareBazaar,2026-09-29,,true
+IOC-0123,hash,fb8eb3f18143e4142b73c7f18170cd63736e3c554a7c53381899a42baa8ca8d9,malware,payload_delivery,Unknown,70,MalwareBazaar,2026-09-29,,true
+IOC-0124,domain,googlanalitlcs.icu,malware,payload_delivery,Unknown malware,100,ThreatFox,2026-02-24,2026-09-29,true
+IOC-0125,domain,googlanalitlcs.live,malware,payload_delivery,Unknown malware,100,ThreatFox,2026-02-24,2026-09-29,true
+IOC-0126,domain,googlanalitlcs.pro,malware,payload_delivery,Unknown malware,100,ThreatFox,2026-02-24,2026-09-29,true
+IOC-0127,domain,googlanalitlcs.xyz,malware,payload_delivery,Unknown malware,100,ThreatFox,2026-02-24,2026-09-29,true
+IOC-0128,url,http://107.172.209.126/img/3.jpg,malware,payload_delivery,Unknown,75,URLhaus,2026-09-29,2026-09-29,true
+IOC-0129,url,http://113.230.80.220:59429/bin.sh,malware,payload_delivery,Unknown,75,URLhaus,2026-09-29,2026-09-29,true
+IOC-0130,url,http://115.57.254.244:47288/i,malware,payload_delivery,Mozi,75,URLhaus,2026-09-29,2026-09-29,true
+IOC-0131,url,http://120.28.196.74:35038/Mozi.a,malware,payload_delivery,elf,75,URLhaus,2026-09-29,2026-09-29,true
+IOC-0132,url,http://154.12.118.41/58/mdpjioA.txt,malware,payload_delivery,rat,75,URLhaus,2026-09-29,2026-09-29,true
+IOC-0133,url,http://172.245.209.150/60/IefSebk.txt,malware,payload_delivery,Unknown,75,URLhaus,2026-09-29,2026-09-29,true
+IOC-0134,url,http://182.127.84.1:54511/i,malware,payload_delivery,Unknown,75,URLhaus,2026-09-29,2026-09-29,true
+IOC-0135,url,http://202.110.70.60:800/adb.sh,malware,payload_delivery,elf,75,URLhaus,2026-09-29,2026-09-29,true
+IOC-0136,url,http://211.219.49.173:4089/Mozi.m,malware,payload_delivery,elf,75,URLhaus,2026-09-29,2026-09-29,true
+IOC-0137,url,http://42.52.206.134:57818/bin.sh,malware,payload_delivery,Unknown,75,URLhaus,2026-09-29,2026-09-29,true
+IOC-0138,url,http://42.54.64.157:44760/i,malware,payload_delivery,32-bit,75,URLhaus,2026-09-29,2026-09-29,true
+IOC-0139,url,http://90.228.239.131:54971/Mozi.a,malware,payload_delivery,elf,75,URLhaus,2026-09-29,2026-09-29,true
+IOC-0140,url,https://blaxllantas.com/Chrome.exe,malware,payload_delivery,Unknown,75,URLhaus,2026-09-29,2026-09-29,true
+IOC-0141,url,https://blaxllantas.com/google.exe,malware,payload_delivery,CoinMiner,75,URLhaus,2026-09-29,2026-09-29,true
+IOC-0142,url,https://reinigung-kosanke.de/wp-includes/theme-compat/qmxythi/baw1uqm/dvwqpnh/myCRYPTED_STUB.ps1,malware,payload_delivery,ascii,75,URLhaus,2026-09-29,2026-09-29,true
+IOC-0143,domain,insightpixel.icu,malware,payload_delivery,Unknown malware,100,ThreatFox,2026-02-24,2026-09-28,true
+IOC-0144,domain,pagestatix.icu,malware,payload_delivery,Unknown malware,100,ThreatFox,2026-02-24,2026-09-28,true
+IOC-0145,domain,pixelmetrics.live,malware,payload_delivery,Unknown malware,100,ThreatFox,2026-02-24,2026-09-29,true
+IOC-0146,domain,siteinsights.icu,malware,payload_delivery,Unknown malware,100,ThreatFox,2026-02-24,2026-09-28,true
+IOC-0147,domain,trackmetrica.icu,malware,payload_delivery,Unknown malware,100,ThreatFox,2026-02-24,2026-09-28,true
+IOC-0148,domain,visitorflow.icu,malware,payload_delivery,Unknown malware,100,ThreatFox,2026-02-24,2026-09-28,true
+IOC-0149,domain,webpulsedata.icu,malware,payload_delivery,Unknown malware,100,ThreatFox,2026-02-24,2026-09-29,true
+IOC-0150,domain,webtracelab.icu,malware,payload_delivery,Unknown malware,100,ThreatFox,2026-02-24,2026-09-28,true
+IOC-0151,url,http://genie.evergreenfin.ltd/,phishing,phishing,Unknown,80,OpenPhish,2026-09-29,,true
+IOC-0152,url,http://geren.evergreenfin.ltd/,phishing,phishing,Unknown,80,OpenPhish,2026-09-29,,true
+IOC-0153,url,http://idlogin.evergreenfin.ltd/,phishing,phishing,Unknown,80,OpenPhish,2026-09-29,,true
+IOC-0154,url,http://idpage.evergreenfin.ltd/,phishing,phishing,Unknown,80,OpenPhish,2026-09-29,,true
+IOC-0155,url,http://loginpage.evergreenfin.ltd/,phishing,phishing,Unknown,80,OpenPhish,2026-09-29,,true
+IOC-0156,url,http://manage.evergreenfin.ltd/,phishing,phishing,Unknown,80,OpenPhish,2026-09-29,,true
+IOC-0157,url,http://netease.evergreenfin.ltd/,phishing,phishing,Unknown,80,OpenPhish,2026-09-29,,true
+IOC-0158,url,http://oauth2.evergreenfin.ltd/,phishing,phishing,Unknown,80,OpenPhish,2026-09-29,,true
+IOC-0159,url,http://onlinebank.evergreenfin.ltd/,phishing,phishing,Unknown,80,OpenPhish,2026-09-29,,true
+IOC-0160,url,http://outlook.evergreenfin.ltd/,phishing,phishing,Unknown,80,OpenPhish,2026-09-29,,true
+IOC-0161,url,http://partner.evergreenfin.ltd/,phishing,phishing,Unknown,80,OpenPhish,2026-09-29,,true
+IOC-0162,url,http://passport2.evergreenfin.ltd/,phishing,phishing,Unknown,80,OpenPhish,2026-09-29,,true
+IOC-0163,url,http://platform.evergreenfin.ltd/,phishing,phishing,Unknown,80,OpenPhish,2026-09-29,,true
+IOC-0164,url,http://v2.evergreenfin.ltd/,phishing,phishing,Unknown,80,OpenPhish,2026-09-29,,true
+IOC-0165,url,https://account-sso.evergreenfin.ltd/,phishing,phishing,Unknown,80,OpenPhish,2026-09-29,,true
+IOC-0166,url,https://adminlogin.evergreenfin.ltd/,phishing,phishing,Unknown,80,OpenPhish,2026-09-29,,true
+IOC-0167,url,https://backoffice.evergreenfin.ltd/,phishing,phishing,Unknown,80,OpenPhish,2026-09-29,,true
+IOC-0168,url,https://cdn.evergreenfin.ltd/,phishing,phishing,Unknown,80,OpenPhish,2026-09-29,,true
+IOC-0169,url,https://dingtalk.evergreenfin.ltd/,phishing,phishing,Unknown,80,OpenPhish,2026-09-29,,true
+IOC-0170,url,https://douban.evergreenfin.ltd/,phishing,phishing,Unknown,80,OpenPhish,2026-09-29,,true
+IOC-0171,url,https://douyin.evergreenfin.ltd/,phishing,phishing,Unknown,80,OpenPhish,2026-09-29,,true
+IOC-0172,url,https://employees.evergreenfin.ltd/,phishing,phishing,Unknown,80,OpenPhish,2026-09-29,,true
+IOC-0173,url,https://erp.evergreenfin.ltd/,phishing,phishing,Unknown,80,OpenPhish,2026-09-29,,true
+IOC-0174,url,https://facturacion.evergreenfin.ltd/,phishing,phishing,Unknown,80,OpenPhish,2026-09-29,,true
+IOC-0175,url,https://huiyuanlogin.evergreenfin.ltd/,phishing,phishing,Unknown,80,OpenPhish,2026-09-29,,true
+IOC-0176,url,https://iam.evergreenfin.ltd/,phishing,phishing,Unknown,80,OpenPhish,2026-09-29,,true
+IOC-0177,url,https://id-sso.evergreenfin.ltd/,phishing,phishing,Unknown,80,OpenPhish,2026-09-29,,true
+IOC-0178,url,https://ids.evergreenfin.ltd/,phishing,phishing,Unknown,80,OpenPhish,2026-09-29,,true
+IOC-0179,url,https://in.evergreenfin.ltd/,phishing,phishing,Unknown,80,OpenPhish,2026-09-29,,true
+IOC-0180,url,https://lk.evergreenfin.ltd/,phishing,phishing,Unknown,80,OpenPhish,2026-09-29,,true
+IOC-0181,url,https://melon.evergreenfin.ltd/,phishing,phishing,Unknown,80,OpenPhish,2026-09-29,,true
+IOC-0182,url,https://membership.evergreenfin.ltd/,phishing,phishing,Unknown,80,OpenPhish,2026-09-29,,true
+IOC-0183,url,https://mobilebank.evergreenfin.ltd/,phishing,phishing,Unknown,80,OpenPhish,2026-09-29,,true
+IOC-0184,url,https://monitor.evergreenfin.ltd/,phishing,phishing,Unknown,80,OpenPhish,2026-09-29,,true
+IOC-0185,url,https://naver.evergreenfin.ltd/,phishing,phishing,Unknown,80,OpenPhish,2026-09-29,,true
+IOC-0186,url,https://node.evergreenfin.ltd/,phishing,phishing,Unknown,80,OpenPhish,2026-09-29,,true
+IOC-0187,url,https://okta.evergreenfin.ltd/,phishing,phishing,Unknown,80,OpenPhish,2026-09-29,,true
+IOC-0188,url,https://passport.evergreenfin.ltd/,phishing,phishing,Unknown,80,OpenPhish,2026-09-29,,true
+IOC-0189,url,https://passportpage.evergreenfin.ltd/,phishing,phishing,Unknown,80,OpenPhish,2026-09-29,,true
+IOC-0190,url,https://pgsql.evergreenfin.ltd/,phishing,phishing,Unknown,80,OpenPhish,2026-09-29,,true
+IOC-0191,url,https://rakutenid.evergreenfin.ltd/,phishing,phishing,Unknown,80,OpenPhish,2026-09-29,,true
+IOC-0192,url,https://sandbox.evergreenfin.ltd/,phishing,phishing,Unknown,80,OpenPhish,2026-09-29,,true
+IOC-0193,url,https://secure.evergreenfin.ltd/,phishing,phishing,Unknown,80,OpenPhish,2026-09-29,,true
+IOC-0194,url,https://shangjia.evergreenfin.ltd/,phishing,phishing,Unknown,80,OpenPhish,2026-09-29,,true
+IOC-0195,url,https://sonemosjuntos--pensandoenti.replit.app/,phishing,phishing,Unknown,80,OpenPhish,2026-09-29,,true
+IOC-0196,url,https://sso.evergreenfin.ltd/,phishing,phishing,Unknown,80,OpenPhish,2026-09-29,,true
+IOC-0197,url,https://tokenim-sg-cdn.lol/download,phishing,phishing,Unknown,80,OpenPhish,2026-09-29,,true
+IOC-0198,url,https://vpn.evergreenfin.ltd/,phishing,phishing,Unknown,80,OpenPhish,2026-09-29,,true
+IOC-0199,url,https://webufexcv.vip/,phishing,phishing,Unknown,80,OpenPhish,2026-09-29,,true
+IOC-0200,url,https://www.asodfihjgdioshi.xyz/,phishing,phishing,Unknown,80,OpenPhish,2026-09-29,,true
+IOC-0201,ip,108.181.115.254,ransomware,command_and_control,RansomHub,75,ThreatFox,2026-06-13,2026-09-29,true
+IOC-0202,ip,108.181.182.143,ransomware,command_and_control,RansomHub,75,ThreatFox,2025-01-17,2026-09-29,true
+IOC-0203,ip,162.248.224.223,ransomware,command_and_control,RansomHub,75,ThreatFox,2025-06-08,2026-09-29,true
+IOC-0204,ip,162.248.225.165,ransomware,command_and_control,RansomHub,75,ThreatFox,2026-05-29,2026-09-29,true
+IOC-0205,ip,162.252.173.12,ransomware,command_and_control,RansomHub,100,ThreatFox,2025-01-31,2026-09-29,true
+IOC-0206,ip,185.174.101.240,ransomware,command_and_control,RansomHub,75,ThreatFox,2025-01-17,2026-09-29,true
+IOC-0207,ip,185.174.101.69,ransomware,command_and_control,RansomHub,75,ThreatFox,2025-01-17,2026-09-29,true
+IOC-0208,ip,185.233.166.124,ransomware,command_and_control,RansomHub,75,ThreatFox,2025-08-04,2026-09-29,true
+IOC-0209,ip,185.33.86.15,ransomware,command_and_control,RansomHub,100,ThreatFox,2025-01-30,2026-09-29,true
+IOC-0210,hash,24d476813db9620e82d258b20f2d6987b39d54ec25403fe40e2da7b9965f1095,ransomware,ransomware_infrastructure,WannaCry,70,MalwareBazaar,2026-09-29,,true
+IOC-0211,ip,38.146.28.93,ransomware,command_and_control,RansomHub,100,ThreatFox,2025-01-30,2026-09-29,true
+IOC-0212,ip,45.66.248.82,ransomware,command_and_control,RansomHub,75,ThreatFox,2026-05-04,2026-09-29,true
+IOC-0213,hash,541677c2ce44edbb6241907c36463e6ded77a9d7cdb48ceb4113f1111ad2f9e8,ransomware,ransomware_infrastructure,WannaCryptor,95,ThreatFox,2026-09-24,2026-09-29,true
+IOC-0214,hash,a34f61dbd587218e511007fa3add7df230ad62889cee53b9051f727fa05fb2c0,ransomware,ransomware_infrastructure,WannaCry,70,MalwareBazaar,2026-09-28,,true
+IOC-0215,hash,aafeaf4892cd200b9dd7b9e03259b49204d2973b,ransomware,ransomware_infrastructure,WannaCryptor,95,ThreatFox,2026-09-24,2026-09-29,true
+IOC-0216,domain,allowedcloud.com,ransomware,command_and_control,Cobalt Strike,100,ThreatFox,2023-01-11,2026-09-29,true
+IOC-0217,hash,e175fe5c32de460190253f2945e7536f48ea2f9ecb64530bee9826116f6ad21e,ransomware,ransomware_infrastructure,WannaCry,70,MalwareBazaar,2026-09-27,,true
+IOC-0218,hash,ec481093436e1c5a03aaed1a4bc70b6aff99a75e6b1757fb19ec2a676fab0155,ransomware,ransomware_infrastructure,WannaCry,70,MalwareBazaar,2026-09-28,,true
+IOC-0219,hash,f5ec29d01c9adb0ecabb2da6bc8fb81a,ransomware,ransomware_infrastructure,WannaCryptor,95,ThreatFox,2026-09-24,2026-09-29,true
+IOC-0220,ip,1.10.179.37,scanning,web_scanning,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0221,ip,1.22.114.164,scanning,web_scanning,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0222,ip,1.54.155.103,scanning,web_scanning,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0223,ip,1.54.177.124,scanning,web_scanning,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0224,ip,1.55.201.255,scanning,web_scanning,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0225,ip,100.16.213.221,scanning,web_scanning,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0226,ip,100.48.77.53,scanning,web_scanning,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0227,ip,101.184.63.98,scanning,web_scanning,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0228,ip,101.207.202.150,scanning,web_scanning,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0229,ip,101.42.1.227,scanning,web_scanning,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0230,ip,101.43.168.169,scanning,web_scanning,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0231,ip,101.44.161.200,scanning,web_scanning,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0232,ip,101.53.230.94,scanning,web_scanning,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0233,ip,101.53.241.142,scanning,web_scanning,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0234,ip,101.56.77.167,scanning,web_scanning,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0235,ip,101.57.218.123,scanning,web_scanning,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0236,ip,101.58.28.231,scanning,web_scanning,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0237,ip,101.79.20.66,scanning,web_scanning,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0238,ip,101.99.13.115,scanning,web_scanning,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0239,ip,102.0.15.16,scanning,web_scanning,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0240,ip,102.0.31.186,scanning,web_scanning,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0241,ip,102.104.5.247,scanning,web_scanning,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0242,ip,102.129.75.125,scanning,web_scanning,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0243,ip,102.138.51.42,scanning,web_scanning,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0244,ip,102.141.33.189,scanning,web_scanning,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0245,ip,102.157.108.103,scanning,web_scanning,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0246,ip,102.159.47.189,scanning,web_scanning,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0247,ip,102.68.98.233,scanning,web_scanning,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0248,ip,102.90.123.71,scanning,web_scanning,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0249,ip,103.105.155.117,scanning,web_scanning,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0250,ip,103.11.62.64,scanning,web_scanning,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0251,ip,103.117.12.77,scanning,web_scanning,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0252,ip,103.120.211.162,scanning,web_scanning,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0253,ip,103.125.146.30,scanning,web_scanning,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0254,ip,103.125.146.32,scanning,web_scanning,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0255,ip,103.125.146.33,scanning,web_scanning,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0256,ip,103.125.146.34,scanning,web_scanning,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0257,ip,103.125.146.35,scanning,web_scanning,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0258,ip,103.125.146.36,scanning,web_scanning,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0259,ip,103.125.146.37,scanning,web_scanning,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0260,ip,103.125.146.38,scanning,web_scanning,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0261,ip,103.125.146.39,scanning,web_scanning,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0262,ip,103.125.146.40,scanning,web_scanning,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0263,ip,103.125.146.41,scanning,web_scanning,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0264,ip,103.125.146.42,scanning,web_scanning,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0265,ip,103.125.146.43,scanning,web_scanning,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0266,ip,103.125.146.44,scanning,web_scanning,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0267,ip,103.125.146.45,scanning,web_scanning,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0268,ip,103.125.146.46,scanning,web_scanning,Unknown,65,Blocklist.de,2026-09-29,,true
+IOC-0269,ip,103.125.146.47,scanning,web_scanning,Unknown,65,Blocklist.de,2026-09-29,,true
