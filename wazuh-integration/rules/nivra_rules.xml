@@ -2,6 +2,17 @@
   NIVRA custom detection rules.
   Install: /var/ossec/etc/rules/nivra_rules.xml, then restart wazuh-manager.
   Rule IDs use the 100XXX custom range per Wazuh convention.
+
+  Severity levels are chosen to match this dashboard's 4-tier scheme
+  (see wazuh-integration/dashboards/nivra_alert_catalog.md for the full
+  per-rule table):
+    Low       0-6   -- routine/authorized events, minor issues
+    Medium    7-11  -- integrity warnings, first-time-seen behavior
+    High     12-14  -- correlated attack-pattern matches, high importance
+    Critical 15-16  -- confirmed severe attacks, near-zero false-positive
+                        chance (reserved for exact threat-intel IOC
+                        matches on the most severe categories only --
+                        currently just ransomware; see 100134/100135)
 -->
 <group name="nivra,android,mobile,">
 
@@ -42,7 +53,7 @@
     <group>authentication_failed,</group>
   </rule>
 
-  <rule id="100102" level="10" frequency="5" timeframe="300">
+  <rule id="100102" level="12" frequency="5" timeframe="300">
     <if_matched_sid>100101</if_matched_sid>
     <description>NIVRA: 5+ failed unlock attempts on $(device.device_id) within 5 minutes -- possible brute-force / lost-or-stolen device.</description>
     <group>authentication_failures,</group>
@@ -109,50 +120,58 @@
     reputation, not something NIVRA's outbound-only NETWORK_EVENT can
     match against yet -- see wazuh_ioc_mapping.md's per-category notes.
   -->
-  <rule id="100131" level="9">
+  <rule id="100131" level="11">
     <if_sid>100130</if_sid>
     <list field="details.hostname" lookup="match_key">etc/lists/nivra_phishing_domains</list>
     <description>NIVRA: $(details.package_name) on $(device.device_id) resolved a known phishing hostname: $(details.hostname) (threat intel: nivra_phishing_domains).</description>
     <group>network_activity,threat_intel,restricted_destination,phishing,</group>
   </rule>
 
-  <rule id="100132" level="10">
+  <rule id="100132" level="12">
     <if_sid>100130</if_sid>
     <list field="details.ip_address" lookup="address_match_key">etc/lists/nivra_c2_ips</list>
     <description>NIVRA: $(details.package_name) on $(device.device_id) connected to a known C2 IP $(details.ip_address):$(details.port) (threat intel: nivra_c2_ips).</description>
     <group>network_activity,threat_intel,restricted_destination,c2,</group>
   </rule>
 
-  <rule id="100133" level="10">
+  <rule id="100133" level="12">
     <if_sid>100130</if_sid>
     <list field="details.hostname" lookup="match_key">etc/lists/nivra_c2_domains</list>
     <description>NIVRA: $(details.package_name) on $(device.device_id) resolved a known C2 hostname: $(details.hostname) (threat intel: nivra_c2_domains).</description>
     <group>network_activity,threat_intel,restricted_destination,c2,</group>
   </rule>
 
-  <rule id="100134" level="13">
+  <rule id="100134" level="15">
     <if_sid>100130</if_sid>
     <list field="details.ip_address" lookup="address_match_key">etc/lists/nivra_ransomware_ips</list>
     <description>NIVRA: $(details.package_name) on $(device.device_id) connected to a known ransomware-affiliated IP $(details.ip_address):$(details.port) (threat intel: nivra_ransomware_ips).</description>
     <group>network_activity,threat_intel,restricted_destination,ransomware,</group>
   </rule>
 
-  <rule id="100135" level="13">
+  <rule id="100135" level="15">
     <if_sid>100130</if_sid>
     <list field="details.hostname" lookup="match_key">etc/lists/nivra_ransomware_domains</list>
     <description>NIVRA: $(details.package_name) on $(device.device_id) resolved a known ransomware-affiliated hostname: $(details.hostname) (threat intel: nivra_ransomware_domains).</description>
     <group>network_activity,threat_intel,restricted_destination,ransomware,</group>
   </rule>
 
-  <rule id="100136" level="8">
+  <rule id="100136" level="10">
     <if_sid>100130</if_sid>
     <list field="details.hostname" lookup="match_key">etc/lists/nivra_malware_domains</list>
     <description>NIVRA: $(details.package_name) on $(device.device_id) resolved a known malware-distribution hostname: $(details.hostname) (threat intel: nivra_malware_domains).</description>
     <group>network_activity,threat_intel,restricted_destination,malware,</group>
   </rule>
 
-  <!-- ADB / administrative activity -->
-  <rule id="100140" level="10">
+  <!--
+    ADB / administrative activity. Currently the only source of this event
+    type is SecurityLogCollector.kt's TAG_ADB_SHELL_INTERACTIVE/
+    TAG_ADB_SHELL_CMD handling, which the app itself tags Severity.HIGH --
+    a confirmed OS-level detection of an actual ADB shell session on a
+    managed device (not a heuristic), so this sits in the High tier
+    alongside the other confirmed/correlated detections (100102, 100132,
+    100133), not Medium.
+  -->
+  <rule id="100140" level="12">
     <if_sid>100100</if_sid>
     <field name="event.type">ADMIN_ACTIVITY</field>
     <description>NIVRA: ADB or administrative security activity detected on $(device.device_id).</description>
